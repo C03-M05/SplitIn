@@ -29,9 +29,30 @@
 		099F3A7D30047656000BD400 /* SplitInUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SplitInUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		92A5B0C630047D110004FE16 /* Exceptions for "SplitIn" folder in "SplitInTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				AGREEMENT.md,
+			);
+			target = 099F3A7230047656000BD400 /* SplitInTests */;
+		};
+		92A5B0C730047D110004FE16 /* Exceptions for "SplitIn" folder in "SplitInUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				AGREEMENT.md,
+			);
+			target = 099F3A7C30047656000BD400 /* SplitInUITests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		099F3A6630047655000BD400 /* SplitIn */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				92A5B0C630047D110004FE16 /* Exceptions for "SplitIn" folder in "SplitInTests" target */,
+				92A5B0C730047D110004FE16 /* Exceptions for "SplitIn" folder in "SplitInUITests" target */,
+			);
 			path = SplitIn;
 			sourceTree = "<group>";
 		};
