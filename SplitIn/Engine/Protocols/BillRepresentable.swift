@@ -9,6 +9,6 @@ import Foundation
 protocol BillRepresentable {
     var paidByID: UUID {get}
     var adjustmentRate: Decimal {get}
-    var itemRepresentable: [BillItemRepresentable] {get}
+    var itemsRepresentable: [BillItemRepresentable] {get}
 }
 
