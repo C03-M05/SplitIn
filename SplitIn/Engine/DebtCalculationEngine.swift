@@ -31,7 +31,7 @@ enum DebtCalculationEngine {
             guard totalShares > 0 else { continue }
 
             for split in splits where split.memberID != payerID {
-                let rawShare = item.totalPrice * (split.shares / totalShares)
+                let rawShare = (item.totalPrice * split.shares) / totalShares
                 let adjustedShare = rawShare * (1 + bill.adjustmentRate)
                 result[split.memberID, default: 0] += adjustedShare
             }
