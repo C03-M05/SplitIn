@@ -52,6 +52,12 @@ enum GroupFactory {
     static func renameGroup(_ group: Group, to newName: String) {
         group.name = newName
     }
+    /// Hapus grup beserta semua member, bill, item, dan split di dalamnya.
+    /// Cascade delete sudah diatur di Model (Group.members, Group.bills pakai
+    /// .cascade), jadi cukup delete grupnya — SwiftData bereskan sisanya.
+    static func deleteGroup(_ group: Group, context: ModelContext) {
+        context.delete(group)
+    }
 }
 
 enum GroupFactoryError: Error, LocalizedError {
