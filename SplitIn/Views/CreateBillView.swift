@@ -20,7 +20,7 @@ struct CreateBillView: View {
     
     // MARK: - Validation
     private var isFormValid: Bool {
-        // 1. Memastikan nama nota (bill name) tidak kosong
+        // 1. Memastikan bill name tidak kosong
         let isBillNameFilled = !billName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
         
         // 2. Memastikan seluruh item makanan di dalam daftar sudah diisi dengan benar
@@ -38,7 +38,6 @@ struct CreateBillView: View {
         // Nota dianggap valid HANYA jika ketiga syarat di atas terpenuhi semua
         return isBillNameFilled && areItemsValid && isGrandTotalFilled
     }
-    
     
     // MARK: - Body View
     var body: some View {
@@ -125,9 +124,7 @@ struct CreateBillView: View {
                             
                             HStack(spacing: 12) {
                                 HStack {
-                                    Text("Rp")
-                                        .foregroundColor(.secondary)
-                                    TextField("Harga", text: $items[index].price)
+                                    TextField("Rp 0", text: $items[index].price)
                                         .keyboardType(.numberPad)
                                 }
                                 .padding(10)
@@ -153,35 +150,37 @@ struct CreateBillView: View {
                                 .cornerRadius(20)
                             }
                             
-                            // MEMBER ( belum bisa scroll samping)
-                            HStack(spacing: 10) {
-                                ForEach(dummyPayers, id: \.self) { member in
-                                    let isSelected = items[index].assignedMembers.contains(member)
-                                    let initial = String(member.prefix(1)).uppercased()
-                                    
-                                    VStack(spacing: 4) {
-                                        Text(initial)
-                                            .font(.title3)
-                                            .fontWeight(.bold)
-                                            .foregroundColor(isSelected ? .black : .primary)
-                                            .frame(width: 67, height: 67)
-                                            .background(isSelected ? Color.primary : Color(.systemGray5))
-                                            .clipShape(Circle())
+                            // MEMBER 
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: 14) {
+                                    ForEach(dummyPayers, id: \.self) { member in
+                                        let isSelected = items[index].assignedMembers.contains(member)
+                                        let initial = String(member.prefix(1)).uppercased()
                                         
-                                        Text(member)
-                                            .font(.caption2)
-                                            .foregroundColor(.secondary)
-                                    }
-                                    .onTapGesture {
-                                        if isSelected {
-                                            items[index].assignedMembers.remove(member)
-                                        } else {
-                                            items[index].assignedMembers.insert(member)
+                                        VStack(spacing: 4) {
+                                            Text(initial)
+                                                .font(.title3)
+                                                .fontWeight(.bold)
+                                                .foregroundColor(isSelected ? .black : .primary)
+                                                .frame(width: 67, height: 67)
+                                                .background(isSelected ? Color.primary : Color(.systemGray5))
+                                                .clipShape(Circle())
+                                            
+                                            Text(member)
+                                                .font(.caption2)
+                                                .foregroundColor(.secondary)
+                                        }
+                                        .onTapGesture {
+                                            if isSelected {
+                                                items[index].assignedMembers.remove(member)
+                                            } else {
+                                                items[index].assignedMembers.insert(member)
+                                            }
                                         }
                                     }
                                 }
+                                .padding(.top, 4)
                             }
-                            .padding(.top, 4)
                         }
                         .padding(.bottom, 10)
                     }
