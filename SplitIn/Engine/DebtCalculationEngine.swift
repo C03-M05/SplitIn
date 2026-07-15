@@ -27,13 +27,14 @@ enum DebtCalculationEngine {
 
         for item in bill.itemsRepresentable {
             let splits = item.splitsRepresentable
-            let totalShares = splits.reduce(Decimal(0)) { $0 + $1.shares }
-            guard totalShares > 0 else { continue }
+            guard !splits.isEmpty else { continue }
+                    
+            let rawShare = item.totalPrice / Decimal(splits.count)
+            let adjustedShare = rawShare * (1 + bill.adjustmentRate)
+            let finalShare = roundToRupiah(adjustedShare)
 
             for split in splits where split.memberID != payerID {
-                let rawShare = (item.totalPrice * split.shares) / totalShares
-                let adjustedShare = rawShare * (1 + bill.adjustmentRate)
-                result[split.memberID, default: 0] += adjustedShare
+                result[split.memberID, default: 0] += finalShare
             }
         }
         return result
@@ -83,4 +84,10 @@ enum DebtCalculationEngine {
         }
         return BalanceSheet(balances: balances)
     }
+    private static func roundToRupiah(_ value: Decimal) -> Decimal {
+            var result = Decimal()
+            var input = value
+            NSDecimalRound(&result, &input, 0, .plain)
+            return result
+        }
 }
