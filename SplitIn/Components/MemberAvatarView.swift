@@ -57,7 +57,7 @@ struct MemberAvatarView: View {
             role: .destructive,
             action: onRemove
         ) {
-            Image(systemName: "xmark.circle.fill")
+            Image(systemName: "minus.circle.fill")
                 .font(.title3)
                 .symbolRenderingMode(.hierarchical)
                 .frame(
@@ -78,4 +78,11 @@ struct MemberAvatarView: View {
             "addGroup.removeMember.\(member.id)"
         )
     }
+}
+
+#Preview {
+    MemberAvatarView(
+        member: DraftGroupMember(name: "Ahmad"),
+        onRemove: {}
+    )
 }

@@ -61,6 +61,7 @@ struct AddGroupView: View {
             }
         }
         .addGroupDialog(viewModel: viewModel)
+        .interactiveDismissDisabled(true)
     }
 
     private func saveGroup() {
