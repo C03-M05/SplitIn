@@ -24,7 +24,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		099F3A6430047655000BD400 /* SplitIn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SplitIn.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		099F3A6430047655000BD400 /* SplitInNewTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SplitInNewTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		099F3A7330047656000BD400 /* SplitInTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SplitInTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		099F3A7D30047656000BD400 /* SplitInUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SplitInUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -106,7 +106,7 @@
 		099F3A6530047655000BD400 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				099F3A6430047655000BD400 /* SplitIn.app */,
+				099F3A6430047655000BD400 /* SplitInNewTest.app */,
 				099F3A7330047656000BD400 /* SplitInTests.xctest */,
 				099F3A7D30047656000BD400 /* SplitInUITests.xctest */,
 			);
@@ -135,7 +135,7 @@
 			packageProductDependencies = (
 			);
 			productName = SplitIn;
-			productReference = 099F3A6430047655000BD400 /* SplitIn.app */;
+			productReference = 099F3A6430047655000BD400 /* SplitInNewTest.app */;
 			productType = "com.apple.product-type.application";
 		};
 		099F3A7230047656000BD400 /* SplitInTests */ = {
@@ -416,7 +416,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 99ZSM76PJ3;
+				DEVELOPMENT_TEAM = B3W96FJVQ4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -430,7 +430,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.farhanqf.SplitIn;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = SplitInNewTest;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
@@ -448,7 +448,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 99ZSM76PJ3;
+				DEVELOPMENT_TEAM = B3W96FJVQ4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -462,7 +462,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.farhanqf.SplitIn;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = SplitInNewTest;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
@@ -479,7 +479,6 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 99ZSM76PJ3;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
 				MARKETING_VERSION = 1.0;
@@ -501,7 +500,6 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 99ZSM76PJ3;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
 				MARKETING_VERSION = 1.0;
@@ -522,7 +520,6 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 99ZSM76PJ3;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.farhanqf.SplitInUITests;
@@ -542,7 +539,6 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 99ZSM76PJ3;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.farhanqf.SplitInUITests;

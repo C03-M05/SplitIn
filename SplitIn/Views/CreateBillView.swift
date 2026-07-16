@@ -45,6 +45,15 @@ struct CreateBillView: View {
                     dismiss()
                 }
             )
+            // ALERT close
+            .alert("Batalkan Nota?", isPresented: $showCancelConfirmation) {
+                            Button("Lanjutkan Mengisi", role: .cancel) { }
+                            Button("Buang", role: .destructive) {
+                                dismiss()
+                            }
+                        } message: {
+                            Text("Perubahan yang Anda buat belum disimpan. Apakah Anda yakin ingin membuang nota ini?")
+                        }
             
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
@@ -164,7 +173,7 @@ struct CreateBillView: View {
                 .padding(20)
             }
             .background(Color(.systemGray6))
-            // ALERT 1: Konfirmasi Hapus Item Menu
+            // ALERT Konfirmasi Hapus Item Menu
             .alert("Delete Item", isPresented: $showDeleteConfirmation) {
                 Button("Close", role: .cancel) { }
                 Button("Delete", role: .destructive) {
@@ -175,16 +184,6 @@ struct CreateBillView: View {
             } message: {
                 Text("Are you sure you want to delete this item?")
             }
-        }
-            
-            // ALERT 2: Konfirmasi button Close X
-            .alert("Batalkan Nota?", isPresented: $showCancelConfirmation) {
-                Button("Lanjutkan Mengisi", role: .cancel) { }
-                Button("Buang", role: .destructive) {
-                    dismiss()
-            }
-        } message: {
-            Text("Perubahan yang Anda buat belum disimpan. Apakah Anda yakin ingin membuang nota ini?")
         }
     }
 }
