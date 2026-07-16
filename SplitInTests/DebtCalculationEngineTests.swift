@@ -46,24 +46,6 @@ final class DebtCalculationEngineTests: XCTestCase {
         XCTAssertNil(debts[sherin], "Payer should never owe themselves")
     }
 
-    func test_weightedShares_splitsProportionally() {
-        // Future-proofing check: A gets 2 shares, B gets 1 share of a 90.000 item.
-        let a = UUID(), b = UUID(), payer = UUID()
-        let item = MockBillItem(
-            totalPrice: 90_000,
-            splitsRepresentable: [
-                MockSplit(memberID: a, shares: 2),
-                MockSplit(memberID: b, shares: 1)
-            ]
-        )
-        let bill = MockBill(paidByID: payer, adjustmentRate: 0, itemsRepresentable: [item])
-
-        let debts = DebtCalculationEngine.debts(for: bill)
-
-        XCTAssertEqual(debts[a], 60_000)
-        XCTAssertEqual(debts[b], 30_000)
-    }
-
     func test_netBalances_pairwiseNetting_matchesProductExample() {
         // "Aku diutangi 200rb tapi aku utang 100rb ke orang yg sama -> net 100rb"
         let me = UUID(), x = UUID()

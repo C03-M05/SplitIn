@@ -16,7 +16,11 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "099F3A6330047655000BD400"
+<<<<<<< HEAD
                BuildableName = "SplitInNewTest.app"
+=======
+               BuildableName = "SplitIn.app"
+>>>>>>> 8fc3f2888f9e4ef302cb42c5903620354f9f2c40
                BlueprintName = "SplitIn"
                ReferencedContainer = "container:SplitIn.xcodeproj">
             </BuildableReference>
@@ -70,7 +74,11 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "099F3A6330047655000BD400"
+<<<<<<< HEAD
             BuildableName = "SplitInNewTest.app"
+=======
+            BuildableName = "SplitIn.app"
+>>>>>>> 8fc3f2888f9e4ef302cb42c5903620354f9f2c40
             BlueprintName = "SplitIn"
             ReferencedContainer = "container:SplitIn.xcodeproj">
          </BuildableReference>
@@ -87,7 +95,11 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "099F3A6330047655000BD400"
+<<<<<<< HEAD
             BuildableName = "SplitInNewTest.app"
+=======
+            BuildableName = "SplitIn.app"
+>>>>>>> 8fc3f2888f9e4ef302cb42c5903620354f9f2c40
             BlueprintName = "SplitIn"
             ReferencedContainer = "container:SplitIn.xcodeproj">
          </BuildableReference>
