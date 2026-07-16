@@ -21,50 +21,66 @@ class RepaymentChecklistViewModel: ObservableObject {
     @MainActor
     func CopyChecklisttoClipboard() {
         var resultText = ""
-        let settlements = group.settlements
+        let sheet = group.balanceSheet()
         
-        // Kondisi 1: Jika belum ada perhitungan sama sekali
-        if settlements.isEmpty {
-            // Kondisi 1.1: Cek apakah member group sudah ada atau belum
-            if group.members.isEmpty {
-                resultText = "*[📝 \(group.name)]* \n\n📣 Grup pengeluaran bersama telah dibuat. Siapkan nota kalian untuk dihitung bareng ya!"
-            }
-            // Kondisi 2: Sudah ada anggota tapi belum ada nominal transaksi
-            else {
-                resultText = "*[📝 \(group.name)]*\n\n**Daftar Anggota Terdaftar:**\n"
-                for member in group.members {
-                    resultText += "👥 *\(member.person.name)*\n"
-                }
-                resultText += "\n⏳ Semua anggota sudah masuk daftar. Silakan melakukan input perhitungan bill!"
-            }
+        // Kondisi 1: Jika grup belum memiliki anggota sama sekali
+        if group.members.isEmpty {
+            resultText = "*[📝 \(group.name)]* \n\n📣 Grup pengeluaran bersama telah dibuat. Siapkan nota kalian untuk dihitung bareng ya!"
             
             UIPasteboard.general.string = resultText
             triggerHapticFeedback()
-            
-            print("LOG HASIL COPY:\n\(resultText)") 
+            print("LOG HASIL COPY (GRUP KOSONG):\n\(resultText)")
+            return
         }
-        // Kondisi 3: rekap lengkap
-        else {
-            resultText = "*\(group.name)]*\n\n"
+        
+        // Cek udah ada kalkulasi atau masih kosong
+        let hasTransactions = group.members.contains { member in
+            if let balance = sheet[member.id] {
+                return !balance.payTo.isEmpty || !balance.collectFrom.isEmpty
+            }
+            return false
+        }
+        
+        // Kondisi 2: Sudah ada anggota tapi belum ada tagihan/bill yang diinput
+        if !hasTransactions {
+            resultText = "*[📝 \(group.name)]*\n\n**Daftar Anggota Terdaftar:**\n"
+            for member in group.members {
+                resultText += "👥 *\(member.person.name)*\n"
+            }
+            resultText += "\n⏳ Semua anggota sudah masuk daftar. Silakan melakukan input perhitungan bill!"
             
-            // Kelompokkan settlement berdasarkan penagih (fromMember) yang diambil dari ID GroupMember
-            let groupedByDebtor = Dictionary(grouping: settlements, by: { $0.fromMember.id })
-            
-            for (_, memberSettlements) in groupedByDebtor {
-                // Ambil nama pengirim (debtor/penagih) dari Settlement -> Person (fromMember -> person -> name)
-                guard let debtorName = memberSettlements.first?.fromMember.person.name else { continue }
-                resultText += "👤 *\(debtorName)*\n"
+            UIPasteboard.general.string = resultText
+            triggerHapticFeedback()
+            print("LOG HASIL COPY (BELUM ADA BILL):\n\(resultText)")
+            return
+        }
+        
+        // Kondisi 3: sudah ada semua
+        resultText = "*[\(group.name)]*\n\n"
+        
+        for member in group.members {
+            // Member ada utang
+            if let memberBalance = sheet[member.id], !memberBalance.payTo.isEmpty {
+                resultText += "👤 *\(member.person.name)*\n"
                 
-                for settlement in memberSettlements {
-                    let creditorName = settlement.toMember.person.name
-                    let formattedAmount = formatToRupiah(settlement.amount)
-                    
-                    // Format: pay to theo: Rp 130.000
-                    resultText += "Bayar ke \(creditorName): *\(formattedAmount)*\n"
+                for entry in memberBalance.payTo {
+                    // Mencari nama penerima dana berdasarkan UUID counterparty
+                    if let creditor = group.members.first(where: { $0.id == entry.counterpartyMemberID }) {
+                        let formattedAmount = formatToRupiah(entry.amount)
+                        // Format send to group chat
+                        resultText += "pay to \(creditor.person.name.lowercased()): *\(formattedAmount)*\n"
+                    }
                 }
                 resultText += "\n"
             }
         }
+
+        let cleanedText = resultText.trimmingCharacters(in: .whitespacesAndNewlines)
+        UIPasteboard.general.string = cleanedText
+        triggerHapticFeedback()
+        
+        // Cetak log ke konsol Xcode untuk mempermudah pengecekan developer
+        print("LOG HASIL COPY (SUKSES TERCANGKOP):\n\(cleanedText)")
     }
     
     @MainActor
@@ -73,7 +89,7 @@ class RepaymentChecklistViewModel: ObservableObject {
         generator.notificationOccurred(.success)
     }
     
-    // format Rp desimal (cth: 15.000)
+    // Mengubah tipe data Decimal menjadi format Rupiah rapi (cth: Rp 15.000)
     private func formatToRupiah(_ amount: Decimal) -> String {
         let formatter = NumberFormatter()
         formatter.locale = Locale(identifier: "id_ID")
@@ -81,11 +97,7 @@ class RepaymentChecklistViewModel: ObservableObject {
         formatter.numberStyle = .decimal
         formatter.maximumFractionDigits = 0
             
-        // Ubah Decimal menjadi NSDecimalNumber agar bisa diformat oleh NumberFormatter
         let formattedNumber = formatter.string(from: amount as NSDecimalNumber) ?? "\(amount)"
-        return "Rp\(formattedNumber)"
+        return "Rp \(formattedNumber)"
     }
-    
-    
-    
 }
