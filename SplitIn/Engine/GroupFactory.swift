@@ -42,7 +42,7 @@ enum GroupFactory {
     /// rule on `paidBills` will refuse the save, so we check up front and
     /// surface a clean error instead of a raw SwiftData save failure.
     static func removeMember(_ member: GroupMember, from group: Group, context: ModelContext) throws {
-        guard member.paidBills.isEmpty else {
+        guard member.paidBills.isEmpty && member.itemSplits.isEmpty else {
             throw GroupFactoryError.memberHasPaidBills(member.id)
         }
         group.members.removeAll { $0.id == member.id }
@@ -52,12 +52,6 @@ enum GroupFactory {
     static func renameGroup(_ group: Group, to newName: String) {
         group.name = newName
     }
-    /// Hapus grup beserta semua member, bill, item, dan split di dalamnya.
-    /// Cascade delete sudah diatur di Model (Group.members, Group.bills pakai
-    /// .cascade), jadi cukup delete grupnya — SwiftData bereskan sisanya.
-    static func deleteGroup(_ group: Group, context: ModelContext) {
-        context.delete(group)
-    }
 }
 
 enum GroupFactoryError: Error, LocalizedError {
@@ -66,7 +60,7 @@ enum GroupFactoryError: Error, LocalizedError {
     var errorDescription: String? {
         switch self {
         case .memberHasPaidBills:
-            return "Anggota ini gak bisa dihapus karena masih tercatat sebagai pembayar di salah satu bill."
+            return "Anggota ini gak bisa dihapus karena sudah tercatat di salah satu tagihan."
         }
     }
 }
