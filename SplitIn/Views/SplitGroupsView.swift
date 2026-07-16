@@ -158,15 +158,10 @@ struct SplitGroupsView: View {
                         Button {
                             beginEditing(group)
                         } label: {
-                            Label(
-                                "Edit",
-                                systemImage: "pencil"
-                            )
+                            Image(systemName: "pencil")
                         }
                         .tint(.blue)
-                        .accessibilityLabel(
-                            "Edit \(group.name)"
-                        )
+                        .accessibilityLabel("Edit \(group.name)")
                     }
                     .swipeActions(
                         edge: .trailing,
@@ -177,14 +172,9 @@ struct SplitGroupsView: View {
                         ) {
                             beginDeleting(group)
                         } label: {
-                            Label(
-                                "Delete",
-                                systemImage: "trash"
-                            )
+                            Image(systemName: "trash")
                         }
-                        .accessibilityLabel(
-                            "Delete \(group.name)"
-                        )
+                        .accessibilityLabel("Delete \(group.name)")
                     }
                     .listRowInsets(
                         EdgeInsets(

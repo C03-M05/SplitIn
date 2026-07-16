@@ -12,16 +12,21 @@ struct GroupMembersSection: View {
     let onAddMember: () -> Void
     let onRemoveMember: (DraftGroupMember) -> Void
 
-    private let columns = [
-        GridItem(
-            .adaptive(
-                minimum: 88,
-                maximum: 110
-            ),
-            spacing: 14,
-            alignment: .top
-        )
-    ]
+    private let horizontalMemberSpacing: CGFloat = 4
+    private let verticalMemberSpacing: CGFloat = 8
+
+    private var columns: [GridItem] {
+        [
+            GridItem(
+                .adaptive(
+                    minimum: 72,
+                    maximum: 88
+                ),
+                spacing: horizontalMemberSpacing,
+                alignment: .top
+            )
+        ]
+    }
 
     var body: some View {
         VStack(
@@ -47,7 +52,7 @@ struct GroupMembersSection: View {
             LazyVGrid(
                 columns: columns,
                 alignment: .leading,
-                spacing: 14
+                spacing: verticalMemberSpacing
             ) {
                 AddMemberButton(action: onAddMember)
 
@@ -60,7 +65,6 @@ struct GroupMembersSection: View {
                     )
                 }
             }
-            .padding(.horizontal, 4)
             .padding(.vertical, 12)
             .frame(
                 maxWidth: .infinity,

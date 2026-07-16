@@ -11,6 +11,9 @@ struct ListGroupCard<Destination: View>: View {
     let title: String
     let destination: Destination
 
+    @State
+    private var isShowingDestination = false
+
     init(
         title: String,
         @ViewBuilder destination: () -> Destination
@@ -20,32 +23,41 @@ struct ListGroupCard<Destination: View>: View {
     }
 
     var body: some View {
-        NavigationLink(destination: destination) {
-            HStack(spacing: 16) {
-                Text(title)
-                    .font(.headline)
-                    .fontWeight(.bold)
-                    .foregroundStyle(.primary)
-
-                Spacer()
-
-                Image(systemName: "chevron.right")
-                    .font(.system(size: 14, weight: .semibold))
-                    .foregroundStyle(.secondary)
-            }
-            .padding(.horizontal, 18)
-            .frame(maxWidth: .infinity)
-            .frame(height: 64)
-            .background {
-                RoundedRectangle(cornerRadius: 14)
-                    .fill(Color(.secondarySystemBackground))
-            }
-            .overlay {
-                RoundedRectangle(cornerRadius: 14)
-                    .stroke(Color(.separator), lineWidth: 0.5)
-            }
+        Button {
+            isShowingDestination = true
+        } label: {
+            cardContent
         }
         .buttonStyle(.plain)
+        .navigationDestination(isPresented: $isShowingDestination) {
+            destination
+        }
+    }
+
+    private var cardContent: some View {
+        HStack(spacing: 16) {
+            Text(title)
+                .font(.headline)
+                .fontWeight(.bold)
+                .foregroundStyle(.primary)
+
+            Spacer()
+
+            Image(systemName: "chevron.right")
+                .font(.system(size: 14, weight: .semibold))
+                .foregroundStyle(.secondary)
+        }
+        .padding(.horizontal, 18)
+        .frame(maxWidth: .infinity)
+        .frame(height: 64)
+        .background {
+            RoundedRectangle(cornerRadius: 14)
+                .fill(Color(.secondarySystemBackground))
+        }
+        .overlay {
+            RoundedRectangle(cornerRadius: 14)
+                .stroke(Color(.separator), lineWidth: 0.5)
+        }
     }
 }
 
