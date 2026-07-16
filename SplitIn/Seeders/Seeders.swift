@@ -60,8 +60,10 @@ enum Seeders {
         let farhan = member("farhan")
         let theo = member("theo")
 
+        let cal = Calendar.current
         // Bill 1: grab to alun-alun — Rp 65.000, dibayar sherin, dibagi sherin+axel+farhan
-        let grab = Bill(group: group, paidBy: sherin, name: "grab to alun-alun")
+        let grab = Bill(group: group, paidBy: sherin, name: "grab to alun-alun",
+                        billDate: cal.date(from: DateComponents(year: 2026, month: 7, day: 13, hour: 14, minute: 30)))
         context.insert(grab)
         let grabItem = BillItem(bill: grab, name: "Grab", price: 65_000, quantity: 1)
         context.insert(grabItem)
@@ -74,7 +76,8 @@ enum Seeders {
         group.bills.append(grab)
 
         // Bill 2: lunch @tanjungapi — dibayar miranda
-        let lunch = Bill(group: group, paidBy: miranda, name: "lunch @tanjungapi")
+        let lunch = Bill(group: group, paidBy: miranda, name: "lunch @tanjungapi",
+                         billDate: cal.date(from: DateComponents(year: 2026, month: 7, day: 14, hour: 12, minute: 0)))
         context.insert(lunch)
 
         let ayam = BillItem(bill: lunch, name: "Ayam Goreng Kampung", price: 27_000, quantity: 2)
