@@ -52,10 +52,10 @@ class CreateBillViewModel {
         }
     }
     
+    //GrandTotal
     var isFormValid: Bool {
         let isNameFilled = !billName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
         let isPayerSelected = selectedPayer != nil
-        let isGrandTotalFilled = rawGrandTotal > 0
         
         let areItemsValid = !formItems.isEmpty && formItems.allSatisfy { item in
             let hasName = !item.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
@@ -65,20 +65,23 @@ class CreateBillViewModel {
             return hasName && hasPrice && hasQuantity && hasMembers
         }
         
-        return isNameFilled && isPayerSelected && isGrandTotalFilled && areItemsValid
+        return isNameFilled && isPayerSelected && areItemsValid
     }
     
     func saveBill(modelContext: ModelContext) {
-        guard isFormValid, let payer = selectedPayer else { return }
-        
-        let newBill = Bill(
-            group: currentGroup,
-            paidBy: payer,
-            name: billName,
-            billDate: billDate,
-            subTotal: Decimal(totalBillAmount),
-            totalFinal: Decimal(rawGrandTotal)
-        )
+            guard isFormValid, let payer = selectedPayer else { return }
+            
+            // Menentukan total akhir 
+            let finalAmount = rawGrandTotal > 0 ? rawGrandTotal : totalBillAmount
+            
+            let newBill = Bill(
+                group: currentGroup,
+                paidBy: payer,
+                name: billName,
+                billDate: billDate,
+                subTotal: Decimal(totalBillAmount),
+                totalFinal: Decimal(finalAmount)
+            )
         
         modelContext.insert(newBill)
         
