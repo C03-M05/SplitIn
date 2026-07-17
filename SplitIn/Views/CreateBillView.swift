@@ -21,6 +21,10 @@ struct CreateBillView: View {
     init(group: Group) {
         _viewModel = State(initialValue: CreateBillViewModel(group: group))
     }
+
+    init(bill: Bill) {
+        _viewModel = State(initialValue: CreateBillViewModel(bill: bill))
+    }
     
     var body: some View {
         @Bindable var vm = viewModel
@@ -28,7 +32,7 @@ struct CreateBillView: View {
         VStack(spacing: 0) {
             // Header Navigasi
             TopNavigationBar(
-                title: "Create Bill",
+                title: vm.isEditMode ? "Edit Bill" : "Create Bill",
                 isComplete: vm.isFormValid,
                 onCancel: {
                     let hasStartedTyping = !vm.billName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty

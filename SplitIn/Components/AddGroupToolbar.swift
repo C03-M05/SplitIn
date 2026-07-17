@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AddGroupToolbar: ToolbarContent {
+    let title: String
     let canSave: Bool
     let formStatusText: String
     let onCancel: () -> Void
@@ -32,7 +33,7 @@ struct AddGroupToolbar: ToolbarContent {
         ToolbarItem(
             placement: .principal
         ) {
-            Text("Add Group")
+            Text(title)
                 .font(.headline)
                 .accessibilityAddTraits(.isHeader)
         }

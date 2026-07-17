@@ -96,7 +96,6 @@ class CreateBillViewModel {
                 quantity: Decimal(formItem.quantity)
             )
             modelContext.insert(newBillItem)
-            
             for memberID in formItem.assignedMemberIDs {
                 if let matchedMember = currentGroup.members.first(where: { $0.id == memberID }) {
                     // Berikan nilai jatah jualan shares = 1 per konsumen
