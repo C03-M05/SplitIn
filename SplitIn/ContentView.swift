@@ -29,7 +29,7 @@ struct ContentView: View {
             .presentationDragIndicator(.visible)
             .presentationCornerRadius(28)
         }
-        .preferredColorScheme(.light)
+        .preferredColorScheme(.dark)
     }
 
     private func showAddGroup() {

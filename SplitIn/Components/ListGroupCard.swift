@@ -10,6 +10,7 @@ import SwiftUI
 struct ListGroupCard<Destination: View>: View {
     let title: String
     let destination: Destination
+    let onTap: (() -> Void)?
 
     @State
     private var isShowingDestination = false
@@ -20,11 +21,25 @@ struct ListGroupCard<Destination: View>: View {
     ) {
         self.title = title
         self.destination = destination()
+        self.onTap = nil
+    }
+
+    init(
+        title: String,
+        onTap: @escaping () -> Void
+    ) where Destination == EmptyView {
+        self.title = title
+        self.destination = EmptyView()
+        self.onTap = onTap
     }
 
     var body: some View {
         Button {
-            isShowingDestination = true
+            if let onTap {
+                onTap()
+            } else {
+                isShowingDestination = true
+            }
         } label: {
             cardContent
         }

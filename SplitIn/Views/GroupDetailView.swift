@@ -15,6 +15,7 @@ struct GroupDetailView: View {
     @StateObject private var repaymentVM: RepaymentChecklistViewModel
     @Environment(\.modelContext) private var modelContext
     @State private var selectedBill: Bill?
+    @State private var showCreateBill = false
 
     // ♿ Aksesibilitas: ukuran tombol Add Bill mengikuti Dynamic Type
     @ScaledMetric(relativeTo: .body) private var addButtonBottomPad: CGFloat = 20
@@ -40,7 +41,7 @@ struct GroupDetailView: View {
                 HStack {
                     Spacer()
                     Button("Add Bill") {
-                        // TODO: Navigate to CreateBillView
+                        showCreateBill = true
                     }
                     .buttonStyle(.primary)
                     .accessibilityLabel("Tambah Tagihan")
@@ -61,6 +62,9 @@ struct GroupDetailView: View {
                 selectedBill = nil
             }
             .presentationDragIndicator(.visible)
+        }
+        .sheet(isPresented: $showCreateBill) {
+            CreateBillView(group: viewModel.group)
         }
     }
 
@@ -125,32 +129,8 @@ struct GroupDetailView: View {
             .listRowInsets(EdgeInsets())
 
             // MARK: - Balance Cards
-            if let balance = viewModel.selectedMemberBalance {
-                let payToRows: [SummaryRow] = balance.payTo.isEmpty
-                    ? [SummaryRow("All settled up", isPlaceholder: true)]
-                    : balance.payTo.map { entry in
-                        SummaryRow(
-                            "\(viewModel.formattedRupiah(entry.amount)) → \(viewModel.memberName(for: entry.counterpartyMemberID))"
-                        )
-                    }
-                SplitSummaryCard(title: "Pay to", rows: payToRows)
-                    .listRowBackground(Color.appBackground)
-                    .listRowSeparator(.hidden)
-                    .listRowInsets(EdgeInsets(top: 6, leading: 20, bottom: 6, trailing: 20))
-
-                let collectRows: [SummaryRow] = balance.collectFrom.isEmpty
-                    ? [SummaryRow("Nothing to collect", isPlaceholder: true)]
-                    : balance.collectFrom.map { entry in
-                        SummaryRow(
-                            viewModel.memberName(for: entry.counterpartyMemberID),
-                            trailing: viewModel.formattedRupiah(entry.amount)
-                        )
-                    }
-                SplitSummaryCard(title: "Collect from", rows: collectRows)
-                    .listRowBackground(Color.appBackground)
-                    .listRowSeparator(.hidden)
-                    .listRowInsets(EdgeInsets(top: 6, leading: 20, bottom: 6, trailing: 20))
-            }
+            payToCard
+            collectFromCard
 
             // MARK: - Bills Header
             Text("Bills")
@@ -179,6 +159,47 @@ struct GroupDetailView: View {
         .listStyle(.plain)
         .scrollContentBackground(.hidden)
         .background(Color.appBackground)
+    }
+
+    // MARK: - Balance Cards
+
+    private var payToCard: some View {
+        SplitSummaryCard(
+            title: "Pay to",
+            rows: {
+                guard let balance = viewModel.selectedMemberBalance, !balance.payTo.isEmpty else {
+                    return [SummaryRow("All settled up", isPlaceholder: true)]
+                }
+                return balance.payTo.map { entry in
+                    SummaryRow(
+                        "\(viewModel.formattedRupiah(entry.amount)) → \(viewModel.memberName(for: entry.counterpartyMemberID))"
+                    )
+                }
+            }()
+        )
+        .listRowBackground(Color.appBackground)
+        .listRowSeparator(.hidden)
+        .listRowInsets(EdgeInsets(top: 6, leading: 20, bottom: 6, trailing: 20))
+    }
+
+    private var collectFromCard: some View {
+        SplitSummaryCard(
+            title: "Collect from",
+            rows: {
+                guard let balance = viewModel.selectedMemberBalance, !balance.collectFrom.isEmpty else {
+                    return [SummaryRow("Nothing to collect", isPlaceholder: true)]
+                }
+                return balance.collectFrom.map { entry in
+                    SummaryRow(
+                        viewModel.memberName(for: entry.counterpartyMemberID),
+                        trailing: viewModel.formattedRupiah(entry.amount)
+                    )
+                }
+            }()
+        )
+        .listRowBackground(Color.appBackground)
+        .listRowSeparator(.hidden)
+        .listRowInsets(EdgeInsets(top: 6, leading: 20, bottom: 6, trailing: 20))
     }
 
     // MARK: - Custom Delete Confirmation Dialog
