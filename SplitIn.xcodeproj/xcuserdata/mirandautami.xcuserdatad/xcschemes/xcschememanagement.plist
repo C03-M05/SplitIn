@@ -4,10 +4,37 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>SplitIn.xcscheme_^#shared#^_</key>
+		<key>SplitIn 1.xcscheme_^#shared#^_</key>
 		<dict>
+			<key>isShown</key>
+			<true/>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
+		<key>SplitIn.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
 			<key>orderHint</key>
 			<integer>0</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>099F3A6330047655000BD400</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>099F3A7230047656000BD400</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>099F3A7C30047656000BD400</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>

@@ -25,7 +25,7 @@ struct TopNavigationBar: View {
                     .background(Color(.systemGray4))
                     .clipShape(Circle())
             }
-            .buttonStyle(.plain)
+            .buttonStyle(.borderless)
             
             Spacer()
             
@@ -44,7 +44,7 @@ struct TopNavigationBar: View {
                     .background(isComplete ? Color.orange : Color(.systemGray4))
                     .clipShape(Circle())
             }
-            .buttonStyle(.plain)
+            .buttonStyle(.borderless)
         }
         .padding(.horizontal)
         .padding(.vertical, 10)
