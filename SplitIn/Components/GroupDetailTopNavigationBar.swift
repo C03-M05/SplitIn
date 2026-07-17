@@ -39,7 +39,7 @@ struct GroupDetailTopNavigationBar: View {
                 }
                 
                 Button(action: {
-                    // Download PDF (nanti)
+                    viewModel.generateAndSharePDF()
                 }) {
                     Label("Download PDF", systemImage: "arrow.down.doc")
                 }
