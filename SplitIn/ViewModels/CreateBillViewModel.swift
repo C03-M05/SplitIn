@@ -33,6 +33,7 @@ class CreateBillViewModel {
         self.currentGroup = group
     }
     
+    // Logika Mengatur penambahan dan pengurangan baris item menu makanan secara dinamis di layar.
     func addItem() {
         let nextIndex = formItems.count + 1
         formItems.append(FormItemInput(displayIndex: nextIndex))
@@ -46,13 +47,14 @@ class CreateBillViewModel {
         }
     }
     
+    // Logika Kalkulasi total items
     var totalBillAmount: Int {
         formItems.reduce(0) { result, item in
             result + (item.price * item.quantity)
         }
     }
     
-    //GrandTotal
+    // Logika Validasi Form
     var isFormValid: Bool {
         let isNameFilled = !billName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
         let isPayerSelected = selectedPayer != nil
@@ -68,20 +70,21 @@ class CreateBillViewModel {
         return isNameFilled && isPayerSelected && areItemsValid
     }
     
+    // LOGIKA PROBABILITAS PEMBAGIAN OTOMATIS BERDASARKAN MODEL SHARES
     func saveBill(modelContext: ModelContext) {
-            guard isFormValid, let payer = selectedPayer else { return }
-            
-            // Menentukan total akhir 
-            let finalAmount = rawGrandTotal > 0 ? rawGrandTotal : totalBillAmount
-            
-            let newBill = Bill(
-                group: currentGroup,
-                paidBy: payer,
-                name: billName,
-                billDate: billDate,
-                subTotal: Decimal(totalBillAmount),
-                totalFinal: Decimal(finalAmount)
-            )
+        guard isFormValid, let payer = selectedPayer else { return }
+        
+        // Menentukan total akhir
+        let finalAmount = rawGrandTotal > 0 ? rawGrandTotal : totalBillAmount
+        
+        let newBill = Bill(
+            group: currentGroup,
+            paidBy: payer,
+            name: billName,
+            billDate: billDate,
+            subTotal: Decimal(totalBillAmount),
+            totalFinal: Decimal(finalAmount)
+        )
         
         modelContext.insert(newBill)
         
@@ -96,15 +99,18 @@ class CreateBillViewModel {
             
             for memberID in formItem.assignedMemberIDs {
                 if let matchedMember = currentGroup.members.first(where: { $0.id == memberID }) {
-                    let newSplit = ItemSplit(item: newBillItem, member: matchedMember)
+                    // Berikan nilai jatah jualan shares = 1 per konsumen
+                    let newSplit = ItemSplit(
+                        item: newBillItem,
+                        member: matchedMember,
+                        shares: 1 
+                    )
                     modelContext.insert(newSplit)
                 }
             }
         }
         try? modelContext.save()
     }
-    
-    
     
     func formatToRupiah(_ value: Int) -> String {
         return "Rp " + formatNumberString("\(value)")
@@ -120,7 +126,7 @@ class CreateBillViewModel {
     }
 }
 
-// MARK: - Diubah Menjadi Kelas @Observable
+// MARK: - Kelas FormItemInput @Observable Tetap Dipertahankan Utuh
 @Observable
 class FormItemInput: Identifiable, Equatable {
     let id = UUID()

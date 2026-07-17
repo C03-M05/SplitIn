@@ -16,11 +16,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "099F3A6330047655000BD400"
-<<<<<<< HEAD
-               BuildableName = "SplitInNewTest.app"
-=======
                BuildableName = "SplitIn.app"
->>>>>>> 8fc3f2888f9e4ef302cb42c5903620354f9f2c40
                BlueprintName = "SplitIn"
                ReferencedContainer = "container:SplitIn.xcodeproj">
             </BuildableReference>
@@ -33,30 +29,6 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES"
       shouldAutocreateTestPlan = "YES">
-      <Testables>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "099F3A7230047656000BD400"
-               BuildableName = "SplitInTests.xctest"
-               BlueprintName = "SplitInTests"
-               ReferencedContainer = "container:SplitIn.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "099F3A7C30047656000BD400"
-               BuildableName = "SplitInUITests.xctest"
-               BlueprintName = "SplitInUITests"
-               ReferencedContainer = "container:SplitIn.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-      </Testables>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -74,11 +46,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "099F3A6330047655000BD400"
-<<<<<<< HEAD
-            BuildableName = "SplitInNewTest.app"
-=======
             BuildableName = "SplitIn.app"
->>>>>>> 8fc3f2888f9e4ef302cb42c5903620354f9f2c40
             BlueprintName = "SplitIn"
             ReferencedContainer = "container:SplitIn.xcodeproj">
          </BuildableReference>
@@ -95,11 +63,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "099F3A6330047655000BD400"
-<<<<<<< HEAD
-            BuildableName = "SplitInNewTest.app"
-=======
             BuildableName = "SplitIn.app"
->>>>>>> 8fc3f2888f9e4ef302cb42c5903620354f9f2c40
             BlueprintName = "SplitIn"
             ReferencedContainer = "container:SplitIn.xcodeproj">
          </BuildableReference>
