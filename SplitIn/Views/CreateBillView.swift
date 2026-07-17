@@ -69,9 +69,9 @@ struct CreateBillView: View {
                         .padding()
                         .background(Color(.systemGray5))
                         .cornerRadius(14)
-                    // ♿ Aksesibilitas: Memberikan label kontekstual untuk pembaca layar
+                    // ♿ Accesibility
                         .accessibilityLabel("Bill Name")
-                        .accessibilityHint("Ketik nama untuk nota belanja ini")
+                        .accessibilityHint("Enter the name for this expense bill")
                     
                     // Pilihan Pembayar
                     HStack {
@@ -99,7 +99,11 @@ struct CreateBillView: View {
                             .cornerRadius(8)
                         }
                     }
-                    
+                    // ♿ Accesibility
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel("Who Paid, Payer Selection")
+                    .accessibilityHint(vm.selectedPayer == nil ? "Double tap to select who paid this bill" : "Current payer is \(vm.selectedPayer?.person.name ?? ""). Double tap to change")
+                
                     Divider()
                         .background(Color(.systemGray6))
                     
@@ -130,6 +134,9 @@ struct CreateBillView: View {
                         .foregroundColor(.orange)
                     }
                     .frame(maxWidth: .infinity, alignment: .center)
+                    // ♿ Accesibility
+                    .accessibilityLabel("Add more item")
+                    .accessibilityHint("Double tap to add a new menu item row")
                     
                     Divider()
                         .background(Color(.systemGray6))
@@ -141,18 +148,27 @@ struct CreateBillView: View {
                             .fontWeight(.bold)
                             .foregroundColor(.primary)
                         
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text("Total Items")
-                                .font(.caption)
+                        HStack {
+                            Text("Total Bills")
+                                .font(.body)
+                                .foregroundColor(.primary)
+                            
+                            Spacer()
+                            
                             Text(vm.formatToRupiah(vm.totalBillAmount))
                                 .font(.title3)
                                 .fontWeight(.bold)
                         }
+                        // ♿ Accesibility
+                        .accessibilityElement(children: .combine)
+                        .accessibilityLabel("Calculated subtotal amount is \(vm.formatToRupiah(vm.totalBillAmount))")
                         
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("Total after tax & discounts")
-                                .font(.caption)
+                        HStack(spacing: 20) {
+                            Text("After Tax/Disc")
+                                .font(.body)
                                 .foregroundColor(.primary)
+                            
+                            Spacer()
                             
                             HStack(spacing: 4) {
                                 Text("Rp")
@@ -168,7 +184,11 @@ struct CreateBillView: View {
                             .background(Color(.systemGray5))
                             .cornerRadius(12)
                         }
+                        // ♿ Accesibility
+                        .accessibilityLabel("Total amount after tax and discounts")
+                        .accessibilityHint("Optional field. Enter final bill amount from receipt if there are extra taxes or discounts")
                     }
+                    
                 }
                 .padding(20)
             }
@@ -206,6 +226,8 @@ struct BillItemRow: View {
                     Button(action: onDelete) {
                         Image(systemName: "trash.fill").foregroundColor(.red)
                     }
+                    // ♿ Accesibility
+                    .accessibilityLabel("Delete Item number \(item.displayIndex)")
                 }
             }
             
@@ -213,6 +235,8 @@ struct BillItemRow: View {
                 .padding(12)
                 .background(Color(.systemGray5))
                 .cornerRadius(8)
+                // ♿ Accesibility
+                .accessibilityLabel("Item \(item.displayIndex) name")
             
             HStack(spacing: 16) {
                 HStack(spacing: 4) {
@@ -227,8 +251,13 @@ struct BillItemRow: View {
                 .background(Color(.systemGray5))
                 .cornerRadius(8)
                 .frame(maxWidth: .infinity)
+                // ♿ Accesibility
+                .accessibilityLabel("Item \(item.displayIndex) price in Rupiah")
+                
                 
                 AppStepper(quantity: $item.quantity)
+                    // ♿ Accesibility
+                    .accessibilityLabel("Item \(item.displayIndex) quantity")
             }
             
             // Member
@@ -258,6 +287,11 @@ struct BillItemRow: View {
                                 item.assignedMemberIDs.insert(member.id)
                             }
                         }
+                        // ♿ Accesibility
+                        .accessibilityElement(children: .combine)
+                        .accessibilityLabel(member.person.name)
+                        .accessibilityHint(isSelected ? "Selected. Double tap to exclude this member from splitting this item" : "Not selected. Double tap to include this member in splitting this item")
+                        .accessibilityAddTraits(isSelected ? .isSelected : [])
                     }
                 }
                 .padding(.top, 4)
@@ -275,10 +309,16 @@ struct AppStepper: View {
             Button(action: { if quantity > 1 { quantity -= 1 } }) {
                 Image(systemName: "minus").bold()
             }
+            // ♿ Accesibility
+            .accessibilityLabel("Decrease quantity")
+            
             Text("\(quantity)").fontWeight(.semibold)
+            
             Button(action: { quantity += 1 }) {
                 Image(systemName: "plus").bold()
             }
+            // ♿ Accesibility
+            .accessibilityLabel("Increase quantity")
         }
         .foregroundColor(.primary)
         .padding(.horizontal, 12)
