@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import SwiftUI
 import SwiftData
 import Combine
 
@@ -83,6 +84,51 @@ class RepaymentChecklistViewModel: ObservableObject {
         print("LOG HASIL COPY (SUKSES TERCANGKOP):\n\(cleanedText)")
     }
     
+    // MARK: - PDF
+
+    @MainActor
+    func generateAndSharePDF() {
+        let pdfWidth: CGFloat = 390
+        let cardHeight: CGFloat = 260
+        let memberCount = group.members.count
+        let pdfHeight: CGFloat = CGFloat(memberCount) * (cardHeight + 16) + 40
+
+        let content = GroupSplitPDFView(group: group)
+        let renderer = ImageRenderer(content: content.frame(width: pdfWidth, height: pdfHeight))
+        renderer.scale = 2
+
+        let fileName = "\(group.name) Split.pdf"
+        let url = FileManager.default.temporaryDirectory.appendingPathComponent(fileName)
+
+        renderer.render { size, draw in
+            var box = CGRect(origin: .zero, size: size)
+            guard let pdfContext = CGContext(url as CFURL, mediaBox: &box, nil) else { return }
+            pdfContext.beginPDFPage(nil)
+            draw(pdfContext)
+            pdfContext.endPDFPage()
+            pdfContext.closePDF()
+        }
+
+        guard let topVC = topMostViewController() else { return }
+
+        let activityVC = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+        activityVC.popoverPresentationController?.sourceView = topVC.view
+        topVC.present(activityVC, animated: true)
+
+        triggerHapticFeedback()
+    }
+
+    private func topMostViewController() -> UIViewController? {
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let window = windowScene.windows.first(where: { $0.isKeyWindow }),
+              let root = window.rootViewController else { return nil }
+        var top = root
+        while let presented = top.presentedViewController {
+            top = presented
+        }
+        return top
+    }
+
     @MainActor
     private func triggerHapticFeedback() {
         let generator = UINotificationFeedbackGenerator()
