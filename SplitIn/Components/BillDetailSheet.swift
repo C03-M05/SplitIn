@@ -32,12 +32,12 @@ struct BillDetailSheet: View {
                                 .bold()
                                 .foregroundStyle(Color.textPrimary)
                                 .frame(width: 36, height: 36)
-                                .background(Color(.systemGray4))
+                                .background(Color(.white).opacity(0.15))
                                 .clipShape(Circle())
                         }
                         .buttonStyle(.plain)
                         .accessibilityLabel("Tutup")
-                        .accessibilityHint("Tutup detail tagihan")
+                        .accessibilityHint("Tutup lembar detail tagihan")
 
                         Spacer()
 
@@ -46,27 +46,25 @@ struct BillDetailSheet: View {
                                 .bold()
                                 .foregroundStyle(Color.textPrimary)
                                 .frame(width: 36, height: 36)
-                                .background(Color(.systemGray4))
+                                .background(Color(.white).opacity(0.15))
                                 .clipShape(Circle())
                         }
                         .buttonStyle(.plain)
-                        .accessibilityLabel("Edit tagihan")
-                        .accessibilityHint("Edit detail tagihan ini")
+                        .accessibilityLabel("Ubah")
+                        .accessibilityHint("Edit informasi detail tagihan ini")
                     }
                 }
-                .padding(.horizontal)
-                .padding(.vertical, 10)
+                .padding(.horizontal, 20)
+                .padding(.vertical, 14)
 
-                Divider()
-                    .background(Color.textSecondary)
-
-                // MARK: - Content
+                // MARK: - Content Scroll View
                 ScrollView {
-                    VStack(alignment: .leading, spacing: 16) {
-                        // Bill name + payer
-                        VStack(alignment: .leading, spacing: 4) {
+                    VStack(alignment: .leading, spacing: 24) {
+                        
+                        // Nama Bill + Pembayar
+                        VStack(alignment: .leading, spacing: 6) {
                             Text(bill.name)
-                                .font(.sectionHeader)
+                                .font(.title2)
                                 .fontWeight(.bold)
                                 .foregroundStyle(Color.textPrimary)
                                 .fixedSize(horizontal: false, vertical: true)
@@ -75,80 +73,100 @@ struct BillDetailSheet: View {
                                 .font(.bodyText)
                                 .foregroundStyle(Color.textPrimary)
                         }
-
+                        .padding(.top, 8)
+                        
                         Divider()
-                            .background(Color.textSecondary)
+                            .background(Color.textPrimary.opacity(0.3))
 
-                        // Items
-                        Text("Items")
-                            .font(.sectionHeader)
-                            .fontWeight(.bold)
-                            .foregroundStyle(Color.textPrimary)
+                        // MARK: - Section Items
+                        VStack(alignment: .leading, spacing: 20) {
+                            Text("Items")
+                                .font(.title3)
+                                .fontWeight(.bold)
+                                .foregroundStyle(Color.textPrimary)
 
-                        ForEach(Array(bill.items.enumerated()), id: \.element.id) { index, item in
-                            VStack(alignment: .leading, spacing: 4) {
-                                HStack(alignment: .top) {
+                            ForEach(bill.items) { item in
+                                VStack(alignment: .leading, spacing: 4) {
+                                    // Baris Judul Item
                                     Text(item.name)
                                         .font(.cardLabel)
+                                        .fontWeight(.semibold)
                                         .foregroundStyle(Color.textPrimary)
                                         .fixedSize(horizontal: false, vertical: true)
 
-                                    Spacer()
+                                    // Baris Detail Harga & Total Sesuai Gambar Mockup
+                                    HStack(alignment: .bottom) {
+                                        HStack(spacing: 16) {
+                                            Text(formattedRupiah(item.price))
+                                                .foregroundStyle(Color.textPrimary)
+                                            
+                                            Text("x \(formattedQuantity(item.quantity))")
+                                                .foregroundStyle(Color.textPrimary)
+                                        }
+                                        .font(.bodyText)
 
-                                    Text("x \(formattedQuantity(item.quantity))")
+                                        Spacer()
+
+                                        // Total harga per item (Price * Quantity)
+                                        Text(formattedRupiah(item.totalPrice))
+                                            .font(.bodyText)
+                                            .foregroundStyle(Color.textPrimary)
+                                    }
+
+                                    // Nama-nama pemisah split belanjaan
+                                    let memberNames = item.splits
+                                        .map { $0.member.person.name.lowercased() }
+                                        .joined(separator: ", ")
+                                    
+                                    Text(memberNames)
+                                        .font(.captionText)
+                                        .foregroundStyle(Color.textPrimary)
+                                        .fixedSize(horizontal: false, vertical: true)
+                                        .padding(.top, 2)
+                                }
+                                .accessibilityElement(children: .combine)
+                            }
+                        }
+
+                        Divider()
+                            .background(Color.textPrimary.opacity(0.3))
+
+                        // MARK: - Section Total
+                        VStack(alignment: .leading, spacing: 16) {
+                            Text("Total")
+                                .font(.title3)
+                                .fontWeight(.bold)
+                                .foregroundStyle(Color.textPrimary)
+
+                            VStack(spacing: 12) {
+                                // Baris Subtotal Tagihan Kotor
+                                HStack {
+                                    Text("Total Bill")
+                                        .font(.bodyText)
+                                        .foregroundStyle(Color.textPrimary)
+                                    Spacer()
+                                    Text(formattedRupiah(displaySubtotal))
                                         .font(.bodyText)
                                         .foregroundStyle(Color.textPrimary)
                                 }
+                                .accessibilityElement(children: .combine)
 
-                                Text(formattedRupiah(item.price))
-                                    .font(.bodyText)
-                                    .foregroundStyle(Color.textPrimary)
-
-                                let memberNames = item.splits
-                                    .map { $0.member.person.name.lowercased() }
-                                    .joined(separator: ", ")
-                                Text(memberNames)
-                                    .font(.captionText)
-                                    .foregroundStyle(Color.textPrimary)
-                                    .fixedSize(horizontal: false, vertical: true)
-                            }
-                            .accessibilityElement(children: .combine)
-                        }
-
-                        // MARK: - Total Section
-                        Divider()
-                            .background(Color.textSecondary)
-                            .padding(.vertical, 4)
-
-                        Text("Total")
-                            .font(.sectionHeader)
-                            .fontWeight(.bold)
-                            .foregroundStyle(Color.textPrimary)
-
-                        VStack(alignment: .leading, spacing: 12) {
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text("Total Bill")
-                                    .font(.captionText)
-                                    .foregroundStyle(Color.textSecondary)
-                                Text(formattedRupiah(displaySubtotal))
-                                    .font(.cardLabel)
-                                    .fontWeight(.bold)
-                                    .foregroundStyle(Color.textPrimary)
-                            }
-
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text("Total after tax & discounts")
-                                    .font(.captionText)
-                                    .foregroundStyle(Color.textSecondary)
-                                Text(formattedRupiah(bill.totalFinal ?? displaySubtotal))
-                                    .font(.cardLabel)
-                                    .fontWeight(.bold)
-                                    .foregroundStyle(Color.textPrimary)
+                                // Baris Tagihan Bersih Setelah Pajak/Diskon
+                                HStack {
+                                    Text("After Tax/Discounts")
+                                        .font(.bodyText)
+                                        .foregroundStyle(Color.textPrimary)
+                                    Spacer()
+                                    Text(formattedRupiah(bill.totalFinal ?? displaySubtotal))
+                                        .font(.title3)
+                                        .fontWeight(.bold)
+                                        .foregroundStyle(Color.textPrimary)
+                                }
+                                .accessibilityElement(children: .combine)
                             }
                         }
-                        .accessibilityElement(children: .combine)
                     }
-                    .padding(20)
+                    .padding(.horizontal, 20)
                 }
             }
         }
