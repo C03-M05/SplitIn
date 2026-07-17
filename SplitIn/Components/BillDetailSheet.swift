@@ -12,6 +12,8 @@ struct BillDetailSheet: View {
     let bill: Bill
     let onClose: () -> Void
 
+    @State private var showEditBill = false
+
     var body: some View {
         ZStack {
             Color.appBackground.ignoresSafeArea()
@@ -39,8 +41,7 @@ struct BillDetailSheet: View {
 
                         Spacer()
 
-                        // Placeholder for Edit — navigates to Edit Bill (future)
-                        Button(action: {}) {
+                        Button(action: { showEditBill = true }) {
                             Image(systemName: "pencil")
                                 .bold()
                                 .foregroundStyle(Color.textPrimary)
@@ -150,6 +151,9 @@ struct BillDetailSheet: View {
                     .padding(20)
                 }
             }
+        }
+        .sheet(isPresented: $showEditBill) {
+            CreateBillView(bill: bill)
         }
     }
 

@@ -32,7 +32,7 @@ struct SplitGroupsView: View {
     private var groupPendingDeletion: Group?
 
     @State
-    private var editGroupNameDraft = ""
+    private var selectedGroup: Group?
 
     var body: some View {
         ZStack {
@@ -60,32 +60,15 @@ struct SplitGroupsView: View {
 
             addGroupButton
         }
-        .alert(
-            "Edit Group",
-            isPresented: editGroupPresentationBinding
-        ) {
-            TextField(
-                "Group name",
-                text: $editGroupNameDraft
+        .sheet(item: $groupBeingEdited) { group in
+            AddGroupView(
+                group: group,
+                onCancel: { groupBeingEdited = nil },
+                onSaved: { groupBeingEdited = nil }
             )
-            .textInputAutocapitalization(.words)
-            .autocorrectionDisabled(false)
-            .accessibilityLabel("Group name input")
-
-            Button(
-                "Cancel",
-                role: .cancel,
-                action: cancelEditingGroup
-            )
-
-            Button(
-                "Save",
-                action: saveEditedGroup
-            )
-            .disabled(normalizedEditGroupName.isEmpty)
-            .accessibilityLabel("Save group name")
-        } message: {
-            Text("Update this group's name.")
+            .presentationDetents([.large])
+            .presentationDragIndicator(.visible)
+            .presentationCornerRadius(28)
         }
         .alert(
             "Delete Group",
@@ -105,6 +88,12 @@ struct SplitGroupsView: View {
             .accessibilityLabel("Delete group")
         } message: {
             Text(deleteGroupMessage)
+        }
+        .sheet(item: $selectedGroup) { group in
+            GroupDetailView(
+                viewModel: GroupDetailViewModel(group: group),
+                onBack: { selectedGroup = nil }
+            )
         }
     }
 
@@ -135,84 +124,12 @@ struct SplitGroupsView: View {
 
     private var groupList: some View {
         List {
-                ForEach(
-                    groups,
-                    id: \.id
-                ) { group in
-                    ListGroupCard(
-                        title: group.name
-                    ) {
-                        /*
-                         Tambahkan navigasi menuju detail grup
-                         di sini.
+            ForEach(groups, id: \.id) { group in
+                groupRow(for: group)
+            }
 
-                         Contoh:
-
-                         selectedGroup = group
-                         */
-                    }
-                    .swipeActions(
-                        edge: .leading,
-                        allowsFullSwipe: true
-                    ) {
-                        Button {
-                            beginEditing(group)
-                        } label: {
-                            Image(systemName: "pencil")
-                        }
-                        .tint(.blue)
-                        .accessibilityLabel("Edit \(group.name)")
-                    }
-                    .swipeActions(
-                        edge: .trailing,
-                        allowsFullSwipe: true
-                    ) {
-                        Button(
-                            role: .destructive
-                        ) {
-                            beginDeleting(group)
-                        } label: {
-                            Image(systemName: "trash")
-                        }
-                        .accessibilityLabel("Delete \(group.name)")
-                    }
-                    .listRowInsets(
-                        EdgeInsets(
-                            top: 6,
-                            leading: 24,
-                            bottom: 6,
-                            trailing: 24
-                        )
-                    )
-                    .listRowSeparator(.hidden)
-                    .listRowBackground(Color.clear)
-                    .accessibilityElement(
-                        children: .combine
-                    )
-                    .accessibilityLabel(
-                        "\(group.name), \(memberCountText(for: group))"
-                    )
-                    .accessibilityHint(
-                        "Opens the group details. Swipe right to edit or swipe left to delete."
-                    )
-                    .accessibilityAction(
-                        named: "Edit group"
-                    ) {
-                        beginEditing(group)
-                    }
-                    .accessibilityAction(
-                        named: "Delete group"
-                    ) {
-                        beginDeleting(group)
-                    }
-                }
-
-            // Memberikan ruang agar card terakhir
-            // tidak tertutup tombol tambah.
             Color.clear
-                .frame(
-                    height: addButtonSize + 40
-                )
+                .frame(height: addButtonSize + 40)
                 .listRowSeparator(.hidden)
                 .listRowBackground(Color.clear)
                 .accessibilityHidden(true)
@@ -220,6 +137,27 @@ struct SplitGroupsView: View {
         .listStyle(.plain)
         .scrollContentBackground(.hidden)
         .padding(.top, 18)
+    }
+
+    private func groupRow(for group: Group) -> some View {
+        ListGroupCard(title: group.name, onTap: { selectedGroup = group })
+        .swipeActions(edge: .leading, allowsFullSwipe: true) {
+            Button { beginEditing(group) } label: { Image(systemName: "pencil") }
+                .tint(.blue)
+                .accessibilityLabel("Edit \(group.name)")
+        }
+        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+            Button(role: .destructive) { beginDeleting(group) } label: { Image(systemName: "trash") }
+                .accessibilityLabel("Delete \(group.name)")
+        }
+        .listRowInsets(EdgeInsets(top: 6, leading: 24, bottom: 6, trailing: 24))
+        .listRowSeparator(.hidden)
+        .listRowBackground(Color.clear)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("\(group.name), \(memberCountText(for: group))")
+        .accessibilityHint("Opens the group details. Swipe right to edit or swipe left to delete.")
+        .accessibilityAction(named: "Edit group") { beginEditing(group) }
+        .accessibilityAction(named: "Delete group") { beginDeleting(group) }
     }
 
     // MARK: - Add Group Button
@@ -285,31 +223,12 @@ struct SplitGroupsView: View {
         return "\(count) members"
     }
 
-    private var normalizedEditGroupName: String {
-        editGroupNameDraft.trimmingCharacters(
-            in: .whitespacesAndNewlines
-        )
-    }
-
     private var deleteGroupMessage: String {
         guard let groupPendingDeletion else {
             return "This group will be permanently deleted."
         }
 
         return "\(groupPendingDeletion.name) will be permanently deleted."
-    }
-
-    private var editGroupPresentationBinding: Binding<Bool> {
-        Binding(
-            get: {
-                groupBeingEdited != nil
-            },
-            set: { isPresented in
-                if !isPresented {
-                    cancelEditingGroup()
-                }
-            }
-        )
     }
 
     private var deleteGroupPresentationBinding: Binding<Bool> {
@@ -327,37 +246,6 @@ struct SplitGroupsView: View {
 
     private func beginEditing(_ group: Group) {
         groupBeingEdited = group
-        editGroupNameDraft = group.name
-    }
-
-    private func saveEditedGroup() {
-        guard let groupBeingEdited else {
-            return
-        }
-
-        let newName = normalizedEditGroupName
-
-        guard !newName.isEmpty else {
-            return
-        }
-
-        GroupFactory.renameGroup(
-            groupBeingEdited,
-            to: newName
-        )
-
-        do {
-            try modelContext.save()
-        } catch {
-            modelContext.rollback()
-        }
-
-        cancelEditingGroup()
-    }
-
-    private func cancelEditingGroup() {
-        groupBeingEdited = nil
-        editGroupNameDraft = ""
     }
 
     private func beginDeleting(_ group: Group) {

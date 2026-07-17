@@ -12,13 +12,18 @@ import SwiftData
 struct DraftGroupMember: Identifiable, Equatable {
     let id: UUID
     var name: String
+    var originalMemberID: UUID?
 
-    init(
-        id: UUID = UUID(),
-        name: String
-    ) {
+    init(id: UUID = UUID(), name: String) {
         self.id = id
         self.name = name
+        self.originalMemberID = nil
+    }
+
+    init(from groupMember: GroupMember) {
+        self.id = UUID()
+        self.name = groupMember.person.name
+        self.originalMemberID = groupMember.id
     }
 
     var initial: String {
@@ -52,6 +57,9 @@ final class AddGroupViewModel {
 
     var activeDialog: ActiveDialog?
     var saveErrorMessage: String = ""
+
+    var isEditMode: Bool = false
+    private var editingGroup: Group?
 
     var normalizedGroupName: String {
         Self.trimmed(groupName)
@@ -182,9 +190,7 @@ final class AddGroupViewModel {
     }
 
     func removeMember(id: UUID) {
-        members.removeAll { member in
-            member.id == id
-        }
+        members.removeAll { member in member.id == id }
     }
 
     func dismissDialog() {
@@ -202,37 +208,55 @@ final class AddGroupViewModel {
         activeDialog = nil
     }
 
+    init() {}
+
+    init(group: Group) {
+        groupName = group.name
+        members = group.members.map { DraftGroupMember(from: $0) }
+        isEditMode = true
+        editingGroup = group
+    }
+
     @discardableResult
     func save(in modelContext: ModelContext) -> Bool {
         guard canSave else {
-            presentSaveError(
-                message: "A group name and at least two members are required."
-            )
-
+            presentSaveError(message: "A group name and at least two members are required.")
             return false
         }
 
-        GroupFactory.createGroup(
-            context: modelContext,
-            name: normalizedGroupName,
-            memberNames: members.map(\.name)
-        )
+        if let existing = editingGroup {
+            GroupFactory.renameGroup(existing, to: normalizedGroupName)
+
+            let keptIDs = Set(members.compactMap { $0.originalMemberID })
+            let toRemove = existing.members.filter { !keptIDs.contains($0.id) }
+            for member in toRemove {
+                do {
+                    try GroupFactory.removeMember(member, from: existing, context: modelContext)
+                } catch {
+                    modelContext.rollback()
+                    presentSaveError(message: "\(member.person.name) can't be removed — they're linked to an existing bill.")
+                    return false
+                }
+            }
+
+            for draft in members where draft.originalMemberID == nil {
+                GroupFactory.addMember(context: modelContext, to: existing, name: draft.name)
+            }
+        } else {
+            GroupFactory.createGroup(
+                context: modelContext,
+                name: normalizedGroupName,
+                memberNames: members.map(\.name)
+            )
+        }
 
         do {
             try modelContext.save()
             reset()
             return true
         } catch {
-            /*
-             Menghapus perubahan yang belum berhasil disimpan agar
-             object sementara tidak tertinggal di ModelContext.
-             */
             modelContext.rollback()
-
-            presentSaveError(
-                message: error.localizedDescription
-            )
-
+            presentSaveError(message: error.localizedDescription)
             return false
         }
     }

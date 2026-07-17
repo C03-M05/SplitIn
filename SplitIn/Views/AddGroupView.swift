@@ -16,7 +16,19 @@ struct AddGroupView: View {
     private var modelContext
 
     @State
-    private var viewModel = AddGroupViewModel()
+    private var viewModel: AddGroupViewModel
+
+    init(onCancel: @escaping () -> Void, onSaved: @escaping () -> Void) {
+        self.onCancel = onCancel
+        self.onSaved = onSaved
+        _viewModel = State(initialValue: AddGroupViewModel())
+    }
+
+    init(group: Group, onCancel: @escaping () -> Void, onSaved: @escaping () -> Void) {
+        self.onCancel = onCancel
+        self.onSaved = onSaved
+        _viewModel = State(initialValue: AddGroupViewModel(group: group))
+    }
 
     var body: some View {
         NavigationStack {
@@ -65,6 +77,7 @@ struct AddGroupView: View {
             .navigationTitle("Group Baru")
             .toolbar {
                 AddGroupToolbar(
+                    title: viewModel.isEditMode ? "Edit Group" : "Add Group",
                     canSave: viewModel.canSave,
                     formStatusText: viewModel.formStatusText,
                     onCancel: onCancel,
