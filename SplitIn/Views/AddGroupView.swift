@@ -31,6 +31,13 @@ struct AddGroupView: View {
                             viewModel.beginEditingGroupName()
                         }
                     )
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel(
+                        viewModel.normalizedGroupName.isEmpty
+                        ? "Nama Grup, Kosong"
+                        : "Nama Grup: \(viewModel.normalizedGroupName)"
+                    )
+                    .accessibilityHint("Ketuk dua kali untuk mengubah nama grup")
 
                     GroupMembersSection(
                         members: viewModel.members,
@@ -41,16 +48,21 @@ struct AddGroupView: View {
                             viewModel.removeMember(id: member.id)
                         }
                     )
+                    .accessibilityLabel("Daftar Anggota Group")
 
                     AddGroupFormStatusView(
                         text: viewModel.formStatusText,
                         canSave: viewModel.canSave
                     )
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel("Status formulir: \(viewModel.formStatusText)")
+                    .accessibilityAddTraits(.isHeader)
                 }
                 .padding(.horizontal, 20)
                 .padding(.vertical, 24)
             }
             .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle("Group Baru")
             .toolbar {
                 AddGroupToolbar(
                     canSave: viewModel.canSave,
