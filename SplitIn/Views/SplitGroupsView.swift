@@ -89,11 +89,8 @@ struct SplitGroupsView: View {
         } message: {
             Text(deleteGroupMessage)
         }
-        .sheet(item: $selectedGroup) { group in
-            GroupDetailView(
-                viewModel: GroupDetailViewModel(group: group),
-                onBack: { selectedGroup = nil }
-            )
+        .navigationDestination(item: $selectedGroup) { group in
+            GroupDetailView(viewModel: GroupDetailViewModel(group: group))
         }
     }
 
