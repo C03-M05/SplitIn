@@ -48,10 +48,14 @@ enum GroupFactory {
         group.members.removeAll { $0.id == member.id }
         context.delete(member)
     }
-
+    
+    static func deleteGroup(_ group: Group, context: ModelContext) {
+            context.delete(group)
+        }
+    
     static func renameGroup(_ group: Group, to newName: String) {
-        group.name = newName
-    }
+            group.name = newName
+        }
 }
 
 enum GroupFactoryError: Error, LocalizedError {
