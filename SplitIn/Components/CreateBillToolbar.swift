@@ -1,46 +1,33 @@
 //
-//  AddGroupToolbar.swift
+//  CreateBillToolbar.swift
 //  SplitIn
 //
-//  Created by ahmadfarhanqf on 15/07/26.
-// 
 
 import SwiftUI
 
-struct AddGroupToolbar: ToolbarContent {
+struct CreateBillToolbar: ToolbarContent {
     let title: String
     let canSave: Bool
-    let formStatusText: String
     let onCancel: () -> Void
     let onSave: () -> Void
 
     var body: some ToolbarContent {
-        ToolbarItem(
-            placement: .cancellationAction
-        ) {
+        ToolbarItem(placement: .cancellationAction) {
             Button(action: onCancel) {
                 Image(systemName: "xmark")
             }
             .accessibilityLabel("Close")
-            .accessibilityHint(
-                "Closes the add group modal without saving."
-            )
-            .accessibilityIdentifier(
-                "addGroup.closeButton"
-            )
+            .accessibilityHint("Closes the bill form without saving.")
+            .accessibilityIdentifier("createBill.closeButton")
         }
 
-        ToolbarItem(
-            placement: .principal
-        ) {
+        ToolbarItem(placement: .principal) {
             Text(title)
                 .font(.headline)
                 .accessibilityAddTraits(.isHeader)
         }
 
-        ToolbarItem(
-            placement: .confirmationAction
-        ) {
+        ToolbarItem(placement: .confirmationAction) {
             Button(action: onSave) {
                 Image(systemName: "checkmark")
                     .foregroundStyle(canSave ? Color.white : Color.black)
@@ -48,15 +35,13 @@ struct AddGroupToolbar: ToolbarContent {
             .buttonStyle(.borderedProminent)
             .tint(.orange)
             .disabled(!canSave)
-            .accessibilityLabel("Save group")
+            .accessibilityLabel("Save bill")
             .accessibilityHint(
                 canSave
-                ? "Saves the group and returns to the start page."
-                : formStatusText
+                ? "Saves the bill and returns to the group."
+                : "Fill in the bill name and items to enable saving."
             )
-            .accessibilityIdentifier(
-                "addGroup.saveButton"
-            )
+            .accessibilityIdentifier("createBill.saveButton")
         }
     }
 }

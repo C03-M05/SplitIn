@@ -10,7 +10,6 @@ import SwiftData
 
 struct GroupDetailView: View {
     @ObservedObject var viewModel: GroupDetailViewModel
-    var onBack: () -> Void
 
     @StateObject private var repaymentVM: RepaymentChecklistViewModel
     @Environment(\.modelContext) private var modelContext
@@ -20,16 +19,13 @@ struct GroupDetailView: View {
     // ♿ Aksesibilitas: ukuran tombol Add Bill mengikuti Dynamic Type
     @ScaledMetric(relativeTo: .body) private var addButtonBottomPad: CGFloat = 20
 
-    init(viewModel: GroupDetailViewModel, onBack: @escaping () -> Void) {
+    init(viewModel: GroupDetailViewModel) {
         self.viewModel = viewModel
-        self.onBack = onBack
         _repaymentVM = StateObject(wrappedValue: RepaymentChecklistViewModel(group: viewModel.group))
     }
 
     var body: some View {
         VStack(spacing: 0) {
-            GroupDetailTopNavigationBar(onBack: onBack, viewModel: repaymentVM)
-
             SwiftUI.Group {
                 if viewModel.sortedBills.isEmpty {
                     emptyBillsState
@@ -65,6 +61,13 @@ struct GroupDetailView: View {
         }
         .sheet(isPresented: $showCreateBill) {
             CreateBillView(group: viewModel.group)
+                .presentationDetents([.large])
+                .presentationDragIndicator(.visible)
+                .presentationCornerRadius(28)
+        }
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            GroupDetailToolbar(viewModel: repaymentVM)
         }
     }
 
@@ -265,9 +268,11 @@ struct GroupDetailView: View {
     let group = groups.first ?? Group(name: "Malang Trip")
     let vm = GroupDetailViewModel(group: group)
 
-    return GroupDetailView(viewModel: vm, onBack: { print("Back tapped") })
-        .modelContainer(container)
-        .preferredColorScheme(.dark)
+    return NavigationStack {
+        GroupDetailView(viewModel: vm)
+    }
+    .modelContainer(container)
+    .preferredColorScheme(.dark)
 }
 
 #Preview("Empty State") {
@@ -286,7 +291,9 @@ struct GroupDetailView: View {
 
     let vm = GroupDetailViewModel(group: emptyGroup)
 
-    return GroupDetailView(viewModel: vm, onBack: {})
-        .modelContainer(container)
-        .preferredColorScheme(.dark)
+    return NavigationStack {
+        GroupDetailView(viewModel: vm)
+    }
+    .modelContainer(container)
+    .preferredColorScheme(.dark)
 }
