@@ -47,7 +47,8 @@ struct GroupDetailView: View {
                     .accessibilityLabel("Tambah Tagihan")
                     .accessibilityHint("Ketuk untuk menambahkan tagihan baru ke grup ini")
                     .padding(.trailing, 20)
-                    .padding(.vertical, addButtonBottomPad)
+                    .padding(.vertical, 5)
+                    // .padding(.vertical, addButtonBottomPad)
                 }
             }
         }
@@ -83,7 +84,7 @@ struct GroupDetailView: View {
 
             Spacer()
 
-            Text("add bill")
+            Text("Add Bill")
                 .font(.bodyText)
                 .foregroundStyle(Color.textSecondary)
                 .accessibilityLabel("Belum ada tagihan, ketuk Add Bill untuk menambahkan")
@@ -172,7 +173,8 @@ struct GroupDetailView: View {
                 }
                 return balance.payTo.map { entry in
                     SummaryRow(
-                        "\(viewModel.formattedRupiah(entry.amount)) → \(viewModel.memberName(for: entry.counterpartyMemberID))"
+                        viewModel.memberName(for: entry.counterpartyMemberID),
+                        trailing: viewModel.formattedRupiah(entry.amount)
                     )
                 }
             }()

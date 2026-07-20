@@ -64,7 +64,7 @@ struct BillDetailSheet: View {
                         // Nama Bill + Pembayar
                         VStack(alignment: .leading, spacing: 6) {
                             Text(bill.name)
-                                .font(.title2)
+                                .font(.sectionHeader)
                                 .fontWeight(.bold)
                                 .foregroundStyle(Color.textPrimary)
                                 .fixedSize(horizontal: false, vertical: true)
@@ -81,7 +81,7 @@ struct BillDetailSheet: View {
                         // MARK: - Section Items
                         VStack(alignment: .leading, spacing: 20) {
                             Text("Items")
-                                .font(.title3)
+                                .font(.sectionHeader)
                                 .fontWeight(.bold)
                                 .foregroundStyle(Color.textPrimary)
 
@@ -90,7 +90,7 @@ struct BillDetailSheet: View {
                                     // Baris Judul Item
                                     Text(item.name)
                                         .font(.cardLabel)
-                                        .fontWeight(.semibold)
+                                        .fontWeight(.bold)
                                         .foregroundStyle(Color.textPrimary)
                                         .fixedSize(horizontal: false, vertical: true)
 
@@ -134,7 +134,7 @@ struct BillDetailSheet: View {
                         // MARK: - Section Total
                         VStack(alignment: .leading, spacing: 16) {
                             Text("Total")
-                                .font(.title3)
+                                .font(.sectionHeader)
                                 .fontWeight(.bold)
                                 .foregroundStyle(Color.textPrimary)
 
@@ -158,7 +158,7 @@ struct BillDetailSheet: View {
                                         .foregroundStyle(Color.textPrimary)
                                     Spacer()
                                     Text(formattedRupiah(bill.totalFinal ?? displaySubtotal))
-                                        .font(.title3)
+                                        .font(.sectionSubheader)
                                         .fontWeight(.bold)
                                         .foregroundStyle(Color.textPrimary)
                                 }

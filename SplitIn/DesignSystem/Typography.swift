@@ -10,6 +10,7 @@ import SwiftUI
 extension Font {
     static let screenTitle = Font.largeTitle
     static let sectionHeader = Font.title2
+    static let sectionSubheader = Font.title3
     static let cardLabel = Font.headline
     static let bodyText = Font.body
     static let captionText = Font.footnote
