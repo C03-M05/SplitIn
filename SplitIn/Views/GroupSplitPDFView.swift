@@ -11,110 +11,165 @@ import SwiftData
 struct GroupSplitPDFView: View {
     let group: Group
 
-    private var balanceSheet: BalanceSheet { group.balanceSheet() }
-
     var body: some View {
-        VStack(spacing: 16) {
-            ForEach(group.members) { member in
-                if let balance = balanceSheet[member.id] {
-                    MemberPDFCard(
-                        groupName: group.name,
-                        memberName: member.person.name.capitalized,
-                        balance: balance,
-                        nameFor: { id in
-                            group.members.first { $0.id == id }?.person.name.capitalized ?? "Unknown"
-                        }
-                    )
-                }
+        VStack(alignment: .leading, spacing: 20) {
+            ForEach(Array(group.bills.enumerated()), id: \.element.id) { index, bill in
+                BillPDFSection(bill: bill, index: index + 1, total: group.bills.count)
+                    .cardStyle(padding: 20)
             }
         }
         .padding(20)
-        .frame(maxWidth: .infinity)
-        .background(Color(red: 0.11, green: 0.11, blue: 0.12))
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color.appBackground)
     }
 }
 
-// MARK: - Per-member card
-
-private struct MemberPDFCard: View {
-    let groupName: String
-    let memberName: String
-    let balance: MemberBalance
-    let nameFor: (UUID) -> String
+/// One bill rendered as a standalone page — used to give each bill its own PDF page.
+struct BillPDFPage: View {
+    let bill: Bill
+    let index: Int
+    let total: Int
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            // Header
-            HStack {
-                Text(groupName)
-                    .font(.system(size: 22, weight: .bold))
-                    .foregroundStyle(Color(red: 0.82, green: 0.37, blue: 0.22))
-                Spacer()
-                Text(memberName)
-                    .font(.system(size: 22, weight: .bold))
-                    .foregroundStyle(.white)
+        BillPDFSection(bill: bill, index: index, total: total)
+            .cardStyle(padding: 20)
+            .padding(20)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(Color.appBackground)
+    }
+}
+
+// MARK: - Per-bill section (mirrors BillDetailSheet's content)
+
+private struct BillPDFSection: View {
+    let bill: Bill
+    let index: Int
+    let total: Int
+
+    private var displaySubtotal: Decimal {
+        bill.subTotal ?? bill.items.reduce(Decimal(0)) { $0 + $1.totalPrice }
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 24) {
+            // Bill N of Total
+            Text("Bill \(index) of \(total)")
+                .font(.captionText)
+                .fontWeight(.semibold)
+                .foregroundStyle(Color.textSecondary)
+
+            // Nama Bill + Pembayar
+            VStack(alignment: .leading, spacing: 6) {
+                Text(bill.name)
+                    .font(.title2)
+                    .fontWeight(.bold)
+                    .foregroundStyle(Color.textPrimary)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                Text("Paid by \(bill.paidBy.person.name.capitalized)")
+                    .font(.bodyText)
+                    .foregroundStyle(Color.textPrimary)
             }
 
-            // Pay to
-            SectionBox(title: "Pay to") {
-                if balance.payTo.isEmpty {
-                    Text("All settled up")
-                        .font(.system(size: 15))
-                        .foregroundStyle(Color.gray)
-                } else {
-                    ForEach(balance.payTo) { entry in
-                        HStack(spacing: 0) {
-                            Text(formatRupiah(entry.amount))
-                                .frame(width: 110, alignment: .leading)
-                            Text("→")
-                                .padding(.horizontal, 8)
-                            Text(nameFor(entry.counterpartyMemberID))
+            Divider()
+                .background(Color.textPrimary.opacity(0.3))
+
+            // MARK: - Section Items
+            VStack(alignment: .leading, spacing: 20) {
+                Text("Items")
+                    .font(.title3)
+                    .fontWeight(.bold)
+                    .foregroundStyle(Color.textPrimary)
+
+                ForEach(bill.items) { item in
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(item.name)
+                            .font(.cardLabel)
+                            .fontWeight(.semibold)
+                            .foregroundStyle(Color.textPrimary)
+                            .fixedSize(horizontal: false, vertical: true)
+
+                        HStack(alignment: .bottom) {
+                            HStack(spacing: 16) {
+                                Text(formatRupiah(item.price))
+                                    .foregroundStyle(Color.textPrimary)
+
+                                Text("x \(formattedQuantity(item.quantity))")
+                                    .foregroundStyle(Color.textPrimary)
+                            }
+                            .font(.bodyText)
+
                             Spacer()
+
+                            Text(formatRupiah(item.totalPrice))
+                                .font(.bodyText)
+                                .foregroundStyle(Color.textPrimary)
                         }
-                        .font(.system(size: 15))
-                        .foregroundStyle(.white)
+
+                        let memberNames = item.splits
+                            .map { $0.member.person.name.lowercased() }
+                            .joined(separator: ", ")
+
+                        Text(memberNames)
+                            .font(.captionText)
+                            .foregroundStyle(Color.textPrimary)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .padding(.top, 2)
                     }
                 }
             }
 
-            // Collect from
-            SectionBox(title: "Collect from") {
-                if balance.collectFrom.isEmpty {
-                    Text("Nothing to collect")
-                        .font(.system(size: 15))
-                        .foregroundStyle(Color.gray)
-                } else {
-                    ForEach(balance.collectFrom) { entry in
-                        HStack(spacing: 0) {
-                            Text(nameFor(entry.counterpartyMemberID))
-                                .frame(width: 110, alignment: .leading)
-                            Text("=")
-                                .padding(.horizontal, 8)
-                            Text(formatRupiah(entry.amount))
-                            Spacer()
-                        }
-                        .font(.system(size: 15))
-                        .foregroundStyle(.white)
+            Divider()
+                .background(Color.textPrimary.opacity(0.3))
+
+            // MARK: - Section Total
+            VStack(alignment: .leading, spacing: 16) {
+                Text("Total")
+                    .font(.title3)
+                    .fontWeight(.bold)
+                    .foregroundStyle(Color.textPrimary)
+
+                VStack(spacing: 12) {
+                    HStack {
+                        Text("Total Bill")
+                            .font(.bodyText)
+                            .foregroundStyle(Color.textPrimary)
+                        Spacer()
+                        Text(formatRupiah(displaySubtotal))
+                            .font(.bodyText)
+                            .foregroundStyle(Color.textPrimary)
+                    }
+
+                    HStack {
+                        Text("After Tax/Discounts")
+                            .font(.bodyText)
+                            .foregroundStyle(Color.textPrimary)
+                        Spacer()
+                        Text(formatRupiah(bill.totalFinal ?? displaySubtotal))
+                            .font(.title3)
+                            .fontWeight(.bold)
+                            .foregroundStyle(Color.textPrimary)
                     }
                 }
             }
         }
-        .padding(24)
-        .background(
-            RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .fill(Color(red: 0.17, green: 0.17, blue: 0.18))
-        )
     }
 
-    private func formatRupiah(_ amount: Decimal) -> String {
-        let formatter = NumberFormatter()
-        formatter.locale = Locale(identifier: "id_ID")
-        formatter.groupingSeparator = "."
-        formatter.numberStyle = .decimal
-        formatter.maximumFractionDigits = 0
-        let formatted = formatter.string(from: amount as NSDecimalNumber) ?? "\(amount)"
-        return "Rp \(formatted)"
+    private func formattedQuantity(_ quantity: Decimal) -> String {
+        "\(NSDecimalNumber(decimal: quantity).intValue)"
     }
+}
+
+// MARK: - Shared helpers
+
+private func formatRupiah(_ amount: Decimal) -> String {
+    let formatter = NumberFormatter()
+    formatter.locale = Locale(identifier: "id_ID")
+    formatter.groupingSeparator = "."
+    formatter.numberStyle = .decimal
+    formatter.maximumFractionDigits = 0
+    let formatted = formatter.string(from: amount as NSDecimalNumber) ?? "\(amount)"
+    return "Rp \(formatted)"
 }
 
 #Preview {
@@ -128,25 +183,4 @@ private struct MemberPDFCard: View {
     }
     .modelContainer(container)
     .preferredColorScheme(.dark)
-}
-
-private struct SectionBox<Content: View>: View {
-    let title: String
-    @ViewBuilder let content: () -> Content
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Text(title)
-                .font(.system(size: 17, weight: .bold))
-                .foregroundStyle(.white)
-
-            content()
-        }
-        .padding(16)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(
-            RoundedRectangle(cornerRadius: 12, style: .continuous)
-                .fill(Color(red: 0.22, green: 0.22, blue: 0.23))
-        )
-    }
 }

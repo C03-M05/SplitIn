@@ -88,26 +88,32 @@ class RepaymentChecklistViewModel: ObservableObject {
 
     @MainActor
     func generateAndSharePDF() {
+        guard !group.bills.isEmpty else { return }
+
         let pdfWidth: CGFloat = 390
-        let cardHeight: CGFloat = 260
-        let memberCount = group.members.count
-        let pdfHeight: CGFloat = CGFloat(memberCount) * (cardHeight + 16) + 40
-
-        let content = GroupSplitPDFView(group: group)
-        let renderer = ImageRenderer(content: content.frame(width: pdfWidth, height: pdfHeight))
-        renderer.scale = 2
-
         let fileName = "\(group.name) Split.pdf"
         let url = FileManager.default.temporaryDirectory.appendingPathComponent(fileName)
 
-        renderer.render { size, draw in
-            var box = CGRect(origin: .zero, size: size)
-            guard let pdfContext = CGContext(url as CFURL, mediaBox: &box, nil) else { return }
-            pdfContext.beginPDFPage(nil)
-            draw(pdfContext)
-            pdfContext.endPDFPage()
-            pdfContext.closePDF()
+        var initialBox = CGRect(x: 0, y: 0, width: pdfWidth, height: 1)
+        guard let pdfContext = CGContext(url as CFURL, mediaBox: &initialBox, nil) else { return }
+
+        let billCount = group.bills.count
+        for (index, bill) in group.bills.enumerated() {
+            let page = BillPDFPage(bill: bill, index: index + 1, total: billCount)
+            let renderer = ImageRenderer(content: page.frame(width: pdfWidth))
+            renderer.scale = 2
+
+            renderer.render { size, draw in
+                var pageBox = CGRect(origin: .zero, size: size)
+                let boxData = Data(bytes: &pageBox, count: MemoryLayout<CGRect>.size)
+                let pageInfo = [kCGPDFContextMediaBox as String: boxData] as CFDictionary
+                pdfContext.beginPDFPage(pageInfo)
+                draw(pdfContext)
+                pdfContext.endPDFPage()
+            }
         }
+
+        pdfContext.closePDF()
 
         guard let topVC = topMostViewController() else { return }
 
