@@ -27,7 +27,8 @@ struct SplitSummaryCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title)
-                .font(.cardLabel)
+                .font(.sectionSubheader)
+                .fontWeight(.bold)
                 .foregroundStyle(Color.textPrimary)
 
             ForEach(rows) { row in
@@ -42,6 +43,7 @@ struct SplitSummaryCard: View {
                         Spacer()
                         Text(trailing)
                             .font(.bodyText)
+                            .fontWeight(.semibold)
                             .foregroundStyle(textColor)
                     }
                 }
@@ -58,8 +60,7 @@ struct SplitSummaryCard: View {
         SplitSummaryCard(
             title: "Pay to",
             rows: [
-                SummaryRow("Rp 15.000 → Theo"),
-                SummaryRow("Rp 12.000 → Farhan")
+                SummaryRow("Theo", trailing: "Rp 15.000"),
             ]
         )
 
