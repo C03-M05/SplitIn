@@ -21,6 +21,7 @@ struct BillRowView: View {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(bill.name)
                         .font(.cardLabel)
+                        .fontWeight(.bold)
                         .foregroundStyle(Color.textPrimary)
                         .fixedSize(horizontal: false, vertical: true)
 
@@ -32,7 +33,8 @@ struct BillRowView: View {
                 Spacer()
 
                 Text(displayTotal)
-                    .font(.cardLabel)
+                    .font(.sectionHeader)
+                    .fontWeight(.bold)
                     .foregroundStyle(Color.textPrimary)
             }
             .padding(16)

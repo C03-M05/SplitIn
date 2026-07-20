@@ -35,7 +35,7 @@ struct CreateBillView: View {
                     
                     // Judul Bill
                     Text("Bill")
-                        .font(.title3)
+                        .font(.title2)
                         .fontWeight(.bold)
                         .foregroundColor(.primary)
                     
@@ -51,21 +51,25 @@ struct CreateBillView: View {
                     // Pilihan Pembayar
                     HStack {
                         Text("Who Paid?")
+                            .font(.cardLabel)
+                            .fontWeight(.bold)
                             .foregroundColor(.primary)
                         Spacer()
                         Menu {
                             Picker("", selection: $vm.selectedPayer) {
-                                Text("Payer").tag(GroupMember?.none)
+                                // Text(" Select Member ")
+                                //     .tag(GroupMember?.none)
                                 ForEach(vm.currentGroup.members) { member in
-                                    Text(member.person.name).tag(GroupMember?.some(member))
+                                    Text(member.person.name)
+                                        .tag(GroupMember?.some(member))
                                 }
                             }
                         } label: {
                             HStack(spacing: 8) {
-                                Text(vm.selectedPayer?.person.name ?? "Payer")
+                                Text(vm.selectedPayer?.person.name ?? " - ")
                                     .foregroundColor(.primary)
                                 Image(systemName: "chevron.down")
-                                    .font(.footnote)
+                                    .font(.captionText)
                                     .foregroundColor(.gray)
                             }
                             .padding(.horizontal, 10)
@@ -84,7 +88,7 @@ struct CreateBillView: View {
                     
                     // Judul items
                     Text("Items")
-                        .font(.title3)
+                        .font(.sectionHeader)
                         .fontWeight(.bold)
                         .foregroundColor(.primary)
                     
@@ -119,19 +123,19 @@ struct CreateBillView: View {
                     // MARK: - Section Total
                     VStack(alignment: .leading, spacing: 16) {
                         Text("Total")
-                            .font(.title3)
+                            .font(.sectionHeader)
                             .fontWeight(.bold)
                             .foregroundColor(.primary)
                         
                         HStack {
                             Text("Total Bills")
-                                .font(.body)
+                                .font(.bodyText)
                                 .foregroundColor(.primary)
                             
                             Spacer()
                             
                             Text(vm.formatToRupiah(vm.totalBillAmount))
-                                .font(.title3)
+                                .font(.sectionHeader)
                                 .fontWeight(.bold)
                         }
                         // ♿ Accesibility
@@ -275,15 +279,15 @@ struct BillItemRow: View {
                         
                         VStack(spacing: 4) {
                             Text(initial)
-                                .font(.title3)
-                                .fontWeight(.bold)
+                                .font(.screenTitle)
+                                .fontWeight(.semibold)
                                 .foregroundColor(isSelected ? Color(.systemBackground) : .primary)
                                 .frame(width: 67, height: 67)
                                 .background(isSelected ? Color.primary : Color(.systemGray5))
                                 .clipShape(Circle())
                             
                             Text(member.person.name)
-                                .font(.caption2)
+                                .font(.captionText)
                                 .foregroundColor(.secondary)
                         }
                         .onTapGesture {

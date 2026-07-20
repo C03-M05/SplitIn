@@ -18,7 +18,7 @@ struct GroupNameField: View {
     var body: some View {
         Button(action: onTap) {
             HStack(spacing: 12) {
-                Text(isEmpty ? "group name" : groupName)
+                Text(isEmpty ? "Group Name" : groupName)
                     .font(.body)
                     .foregroundStyle(
                         isEmpty
@@ -61,7 +61,7 @@ struct GroupNameField: View {
             )
         }
         .buttonStyle(.plain)
-        .accessibilityLabel("Group name")
+        .accessibilityLabel("Group Name")
         .accessibilityValue(
             isEmpty ? "Not set" : groupName
         )
