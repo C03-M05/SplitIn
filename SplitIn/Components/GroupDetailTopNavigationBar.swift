@@ -32,28 +32,34 @@ struct GroupDetailTopNavigationBar: View {
             
             // 2. Share Menu Button
             Menu {
-                Button(action: {
+                Button {
                     viewModel.CopyChecklisttoClipboard()
-                }) {
+                } label: {
                     Label("Copy Checklist", systemImage: "doc.on.doc")
                 }
-                
-                Button(action: {
+
+                Button {
                     viewModel.generateAndSharePDF()
-                }) {
+                } label: {
                     Label("Download PDF", systemImage: "arrow.down.doc")
                 }
             } label: {
-                Image(systemName: "square.and.arrow.up")
-                    .bold()
-                    .foregroundColor(.white)
-                    .frame(width: 36, height: 36)
-                    .background(Color.orange)
-                    .clipShape(Circle())
+                ZStack {
+                    Circle()
+                        .fill(Color.orange)
+                        .frame(width: 36, height: 36)
+
+                    Image(systemName: "square.and.arrow.up")
+                        .font(.system(size: 16, weight: .bold))
+                        .foregroundStyle(.white)
+                }
+                .frame(width: 36, height: 36)
             }
             .buttonStyle(.plain)
             .accessibilityLabel("Opsi Bagikan")
-            .accessibilityHint("Ketuk dua kali untuk menyalin rekap tagihan atau mengunduh PDF")
+            .accessibilityHint(
+                "Ketuk dua kali untuk menyalin rekap tagihan atau mengunduh PDF"
+            )
             
         }
         .padding(.horizontal)

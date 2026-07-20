@@ -23,6 +23,7 @@ struct MemberFilterBar: View {
                     } label: {
                         Text(member.person.name.lowercased())
                             .font(.bodyText)
+                            .fontWeight(isSelected ? .bold : .regular)
                             .foregroundStyle(isSelected ? Color.avatarSelectedText : Color.textPrimary)
                             .padding(.horizontal, 14)
                             .padding(.vertical, 7)
