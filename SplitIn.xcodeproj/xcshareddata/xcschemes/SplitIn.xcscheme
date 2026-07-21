@@ -58,7 +58,7 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:../SplitIn/SplitIn.xctestplan"
+            reference = "container:SplitIn/Components/SplitIn.xctestplan"
             default = "YES">
          </TestPlanReference>
       </TestPlans>
