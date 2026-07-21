@@ -15,13 +15,17 @@ struct GroupDetailView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var selectedBill: Bill?
     @State private var showCreateBill = false
+    @State private var hasTriggeredInitialCreateBill = false
 
     // ♿ Aksesibilitas: ukuran tombol Add Bill mengikuti Dynamic Type
     @ScaledMetric(relativeTo: .body) private var addButtonBottomPad: CGFloat = 20
 
-    init(viewModel: GroupDetailViewModel) {
+    private let openCreateBillOnAppear: Bool
+
+    init(viewModel: GroupDetailViewModel, openCreateBillOnAppear: Bool = false) {
         self.viewModel = viewModel
         _repaymentVM = StateObject(wrappedValue: RepaymentChecklistViewModel(group: viewModel.group))
+        self.openCreateBillOnAppear = openCreateBillOnAppear   
     }
 
     var body: some View {
@@ -44,7 +48,6 @@ struct GroupDetailView: View {
                     .accessibilityHint("Double tap to add a new bill to this group")
                     .padding(.trailing, 20)
                     .padding(.vertical, 5)
-                    // .padding(.vertical, addButtonBottomPad)
                 }
             }
         }
@@ -73,6 +76,12 @@ struct GroupDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             GroupDetailToolbar(viewModel: repaymentVM)
+        }
+        .onAppear {
+            if openCreateBillOnAppear && !hasTriggeredInitialCreateBill {
+                showCreateBill = true
+                hasTriggeredInitialCreateBill = true
+            }
         }
     }
 
