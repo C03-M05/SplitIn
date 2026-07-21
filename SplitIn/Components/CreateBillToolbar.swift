@@ -8,13 +8,25 @@ import SwiftUI
 struct CreateBillToolbar: ToolbarContent {
     let title: String
     let canSave: Bool
+    @Binding var isShowingDiscardConfirmation: Bool
     let onCancel: () -> Void
+    let onDiscardDraft: () -> Void
     let onSave: () -> Void
 
     var body: some ToolbarContent {
         ToolbarItem(placement: .cancellationAction) {
             Button(action: onCancel) {
                 Image(systemName: "xmark")
+            }
+            .confirmationDialog(
+                "You have unsaved changes.",
+                isPresented: $isShowingDiscardConfirmation,
+                titleVisibility: .visible
+            ) {
+                Button("Delete Draft", role: .destructive, action: onDiscardDraft)
+                Button("Keep Editing", role: .cancel) { }
+            } message: {
+                Text("Delete or keep editing?")
             }
             .accessibilityLabel("Close")
             .accessibilityHint("Closes the bill form without saving.")

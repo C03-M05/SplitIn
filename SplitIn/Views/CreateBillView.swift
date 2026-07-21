@@ -14,9 +14,7 @@ struct CreateBillView: View {
     @Environment(\.dismiss) private var dismiss
     
     @State private var viewModel: CreateBillViewModel
-    @State private var showDeleteConfirmation = false
     @State private var showCancelConfirmation = false
-    @State private var itemIDToDelete: UUID?
     
     init(group: Group) {
         _viewModel = State(initialValue: CreateBillViewModel(group: group))
@@ -99,9 +97,7 @@ struct CreateBillView: View {
                             members: vm.currentGroup.members,
                             showDeleteButton: vm.formItems.count > 1
                         ) {
-                            //vm.removeItem(id: vm.formItems[index].id)
-                            itemIDToDelete = vm.formItems[index].id
-                            showDeleteConfirmation = true
+                            vm.removeItem(id: vm.formItems[index].id)
                         }
                     }
                     
@@ -172,23 +168,13 @@ struct CreateBillView: View {
                 .padding(20)
             }
             .background(Color(.systemGray6))
-            // ALERT Konfirmasi Hapus Item Menu
-            .alert("Delete Item", isPresented: $showDeleteConfirmation) {
-                Button("Close", role: .cancel) { }
-                Button("Delete", role: .destructive) {
-                    if let id = itemIDToDelete {
-                        vm.removeItem(id: id)
-                    }
-                }
-            } message: {
-                Text("Are you sure you want to delete this item?")
-            }
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle(vm.isEditMode ? "Edit Bill" : "Create Bill")
             .toolbar {
                 CreateBillToolbar(
                     title: vm.isEditMode ? "Edit Bill" : "Create Bill",
                     canSave: vm.isFormValid,
+                    isShowingDiscardConfirmation: $showCancelConfirmation,
                     onCancel: {
                         let hasStartedTyping = !vm.billName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
                         let hasAddedPrices = vm.formItems.contains { $0.price > 0 || !$0.name.isEmpty }
@@ -199,19 +185,14 @@ struct CreateBillView: View {
                             dismiss()
                         }
                     },
+                    onDiscardDraft: {
+                        dismiss()
+                    },
                     onSave: {
                         vm.saveBill(modelContext: modelContext)
                         dismiss()
                     }
                 )
-            }
-            .alert("Discard Bill?", isPresented: $showCancelConfirmation) {
-                Button("Keep Editing", role: .cancel) { }
-                Button("Discard", role: .destructive) {
-                    dismiss()
-                }
-            } message: {
-                Text("Your changes haven't been saved. Are you sure you want to discard this bill?")
             }
         }
         .interactiveDismissDisabled(true)
@@ -224,6 +205,8 @@ struct BillItemRow: View {
     let members: [GroupMember]
     let showDeleteButton: Bool
     var onDelete: () -> Void
+
+    @State private var isShowingDeleteConfirmation = false
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -233,8 +216,19 @@ struct BillItemRow: View {
                     .foregroundColor(.primary)
                 Spacer()
                 if showDeleteButton {
-                    Button(action: onDelete) {
+                    Button {
+                        isShowingDeleteConfirmation = true
+                    } label: {
                         Image(systemName: "trash.fill").foregroundColor(.red)
+                    }
+                    .confirmationDialog(
+                        "",
+                        isPresented: $isShowingDeleteConfirmation,
+                        titleVisibility: .hidden
+                    ) {
+                        Button("Delete Item", role: .destructive, action: onDelete)
+                    } message: {
+                        Text("This item will be removed")
                     }
                     // ♿ Accesibility
                     .accessibilityLabel("Delete Item number \(item.displayIndex)")

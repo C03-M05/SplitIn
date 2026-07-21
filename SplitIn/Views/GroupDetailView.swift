@@ -52,15 +52,6 @@ struct GroupDetailView: View {
             }
         }
         .background(Color.appBackground)
-        // ♿ Hide the underlying list from VoiceOver while the delete confirmation is up,
-        // so swiping doesn't reach bill rows hidden behind the dimmed overlay.
-        .accessibilityHidden(viewModel.showDeleteAlert)
-        .overlay {
-            if viewModel.showDeleteAlert {
-                deleteConfirmationOverlay
-                    .accessibilityAddTraits(.isModal)
-            }
-        }
         .sheet(item: $selectedBill) { bill in
             BillDetailSheet(bill: bill) {
                 selectedBill = nil
@@ -166,7 +157,9 @@ struct GroupDetailView: View {
                     displayTotal: viewModel.billDisplayTotal(bill),
                     formattedDate: viewModel.formattedDate(bill.billDate),
                     onTap: { selectedBill = bill },
-                    onDelete: { viewModel.requestDelete(bill: bill) }
+                    onDelete: {
+                        viewModel.delete(bill: bill, using: modelContext)
+                    }
                 )
                 .listRowBackground(Color.appBackground)
                 .listRowSeparator(.hidden)
@@ -220,61 +213,6 @@ struct GroupDetailView: View {
         .listRowInsets(EdgeInsets(top: 6, leading: 20, bottom: 6, trailing: 20))
     }
 
-    // MARK: - Custom Delete Confirmation Dialog
-    private var deleteConfirmationOverlay: some View {
-        ZStack {
-            Color.black.opacity(0.5)
-                .ignoresSafeArea()
-
-            VStack(alignment: .leading, spacing: 16) {
-                VStack(alignment: .leading, spacing: 6) {
-                    Text("Delete Bill")
-                        .font(.cardLabel)
-                        .fontWeight(.bold)
-                        .foregroundStyle(Color.textPrimary)
-                        .accessibilityAddTraits(.isHeader)
-
-                    Text("This action cannot be undone")
-                        .font(.bodyText)
-                        .foregroundStyle(Color.textSecondary)
-                }
-
-                VStack(spacing: 10) {
-                    Button("Cancel") {
-                        viewModel.showDeleteAlert = false
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 14)
-                    .background(Color.blue)
-                    .foregroundStyle(.white)
-                    .font(.cardLabel)
-                    .fontWeight(.semibold)
-                    .clipShape(Capsule())
-                    .buttonStyle(.plain)
-                    .accessibilityLabel("Cancel deletion")
-
-                    Button("Delete") {
-                        viewModel.confirmDelete(using: modelContext)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 14)
-                    .background(Color(.systemGray5))
-                    .foregroundStyle(Color.destructiveRed)
-                    .font(.cardLabel)
-                    .fontWeight(.semibold)
-                    .clipShape(Capsule())
-                    .buttonStyle(.plain)
-                    .accessibilityLabel("Confirm delete bill")
-                }
-            }
-            .padding(20)
-            .background(
-                RoundedRectangle(cornerRadius: 20, style: .continuous)
-                    .fill(Color(.systemGray6))
-            )
-            .padding(.horizontal, 32)
-        }
-    }
 }
 
 #Preview("With Bills") {

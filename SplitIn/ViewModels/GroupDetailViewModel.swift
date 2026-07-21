@@ -47,10 +47,14 @@ class GroupDetailViewModel: ObservableObject {
 
     func confirmDelete(using context: ModelContext) {
         guard let bill = billPendingDelete else { return }
-        group.bills.removeAll { $0.id == bill.id }
-        context.delete(bill)
+        delete(bill: bill, using: context)
         billPendingDelete = nil
         showDeleteAlert = false
+    }
+
+    func delete(bill: Bill, using context: ModelContext) {
+        group.bills.removeAll { $0.id == bill.id }
+        context.delete(bill)
     }
 
     // MARK: - Formatting
