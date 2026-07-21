@@ -7,8 +7,11 @@
 
 #!/bin/sh
 
-# Memaksa Xcode Cloud me-build file tes sebelum pengujian berjalan
+# Move up to repository root folder where .xcodeproj / .xcworkspace lives
+cd "$(dirname "$0")/.."
+
 echo "=== Building test products for Xcode Cloud ==="
+
 xcodebuild build-for-testing \
   -scheme SplitIn \
   -destination 'platform=iOS Simulator,name=iPhone 17'
