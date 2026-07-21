@@ -10,7 +10,7 @@ import SwiftUI
 
 struct AddGroupView: View {
     let onCancel: () -> Void
-    let onSaved: () -> Void
+    let onSaved: (Group) -> Void
 
     @Environment(\.modelContext)
     private var modelContext
@@ -18,13 +18,13 @@ struct AddGroupView: View {
     @State
     private var viewModel: AddGroupViewModel
 
-    init(onCancel: @escaping () -> Void, onSaved: @escaping () -> Void) {
+    init(onCancel: @escaping () -> Void, onSaved: @escaping (Group) -> Void) {
         self.onCancel = onCancel
         self.onSaved = onSaved
         _viewModel = State(initialValue: AddGroupViewModel())
     }
 
-    init(group: Group, onCancel: @escaping () -> Void, onSaved: @escaping () -> Void) {
+    init(group: Group, onCancel: @escaping () -> Void, onSaved: @escaping (Group) -> Void) {
         self.onCancel = onCancel
         self.onSaved = onSaved
         _viewModel = State(initialValue: AddGroupViewModel(group: group))
@@ -91,9 +91,8 @@ struct AddGroupView: View {
 
     private func saveGroup() {
         let didSave = viewModel.save(in: modelContext)
-
-        if didSave {
-            onSaved()
+        if didSave, let group = viewModel.savedGroup {
+            onSaved(group)
         }
     }
 }
@@ -101,7 +100,7 @@ struct AddGroupView: View {
 #Preview {
     AddGroupView(
         onCancel: {},
-        onSaved: {}
+        onSaved: { _ in }   
     )
     .modelContainer(
         for: [

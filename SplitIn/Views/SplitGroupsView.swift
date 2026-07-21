@@ -8,6 +8,21 @@
 import SwiftData
 import SwiftUI
 
+struct GroupNavigationTarget: Identifiable, Hashable {
+    let group: Group
+    let openCreateBillOnAppear: Bool
+    var id: UUID { group.id }
+    
+    static func == (lhs: GroupNavigationTarget, rhs: GroupNavigationTarget) -> Bool {
+           lhs.id == rhs.id && lhs.openCreateBillOnAppear == rhs.openCreateBillOnAppear
+       }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+        hasher.combine(openCreateBillOnAppear)
+    }
+}
+
 struct SplitGroupsView: View {
     @Environment(\.modelContext)
     private var modelContext
@@ -31,8 +46,9 @@ struct SplitGroupsView: View {
     @State
     private var groupPendingDeletion: Group?
 
-    @State
-    private var selectedGroup: Group?
+    @State private var selectedGroup: GroupNavigationTarget?
+
+    @State private var showAddGroup = false
 
     var body: some View {
         ZStack {
@@ -64,7 +80,19 @@ struct SplitGroupsView: View {
             AddGroupView(
                 group: group,
                 onCancel: { groupBeingEdited = nil },
-                onSaved: { groupBeingEdited = nil }
+                onSaved: { _ in groupBeingEdited = nil }
+            )
+            .presentationDetents([.large])
+            .presentationDragIndicator(.visible)
+            .presentationCornerRadius(28)
+        }
+        .sheet(isPresented: $showAddGroup) {
+            AddGroupView(
+                onCancel: { showAddGroup = false },
+                onSaved: { newGroup in
+                    showAddGroup = false
+                    selectedGroup = GroupNavigationTarget(group: newGroup, openCreateBillOnAppear: true)
+                }
             )
             .presentationDetents([.large])
             .presentationDragIndicator(.visible)
@@ -89,8 +117,11 @@ struct SplitGroupsView: View {
         } message: {
             Text(deleteGroupMessage)
         }
-        .navigationDestination(item: $selectedGroup) { group in
-            GroupDetailView(viewModel: GroupDetailViewModel(group: group))
+        .navigationDestination(item: $selectedGroup) { target in
+            GroupDetailView(
+                viewModel: GroupDetailViewModel(group: target.group),
+                openCreateBillOnAppear: target.openCreateBillOnAppear
+            )
         }
     }
 
@@ -137,7 +168,9 @@ struct SplitGroupsView: View {
     }
 
     private func groupRow(for group: Group) -> some View {
-        ListGroupCard(title: group.name, onTap: { selectedGroup = group })
+        ListGroupCard(title: group.name, onTap: {
+            selectedGroup = GroupNavigationTarget(group: group, openCreateBillOnAppear: false)
+        })
         .swipeActions(edge: .leading, allowsFullSwipe: true) {
             Button { beginEditing(group) } label: { Image(systemName: "pencil") }
                 .tint(.blue)
@@ -167,7 +200,10 @@ struct SplitGroupsView: View {
                 Spacer()
 
                 Button(
-                    action: onAddGroup
+                    action: {
+                        onAddGroup()
+                        showAddGroup = true 
+                    }
                 ) {
                     Image(systemName: "plus")
                         .font(

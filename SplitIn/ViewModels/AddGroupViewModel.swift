@@ -61,6 +61,8 @@ final class AddGroupViewModel {
     var isEditMode: Bool = false
     private var editingGroup: Group?
 
+    private(set) var savedGroup: Group?
+
     var normalizedGroupName: String {
         Self.trimmed(groupName)
     }
@@ -242,12 +244,14 @@ final class AddGroupViewModel {
             for draft in members where draft.originalMemberID == nil {
                 GroupFactory.addMember(context: modelContext, to: existing, name: draft.name)
             }
+            savedGroup = existing
         } else {
-            GroupFactory.createGroup(
+            let newGroup = GroupFactory.createGroup(
                 context: modelContext,
                 name: normalizedGroupName,
                 memberNames: members.map(\.name)
             )
+            savedGroup = newGroup
         }
 
         do {
