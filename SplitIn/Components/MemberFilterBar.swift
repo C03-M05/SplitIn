@@ -36,8 +36,8 @@ struct MemberFilterBar: View {
                     .accessibilityAddTraits(isSelected ? .isSelected : [])
                     .accessibilityHint(
                         isSelected
-                        ? "Sedang dipilih"
-                        : "Ketuk untuk melihat tagihan \(member.person.name)"
+                        ? "Currently selected"
+                        : "Double tap to view bills for \(member.person.name)"
                     )
                 }
             }
