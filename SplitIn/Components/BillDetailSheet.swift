@@ -32,8 +32,11 @@ struct BillDetailSheet: View {
                                 .bold()
                                 .foregroundStyle(Color.textPrimary)
                                 .frame(width: 36, height: 36)
-                                .background(Color(.white).opacity(0.15))
-                                .clipShape(Circle())
+                                .background(.ultraThinMaterial, in: Circle())
+                                .overlay(
+                                    Circle()
+                                        .stroke(Color.white.opacity(0.15), lineWidth: 0.5)
+                                    )
                         }
                         .buttonStyle(.plain)
                         .accessibilityLabel("Tutup")
