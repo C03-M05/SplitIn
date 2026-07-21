@@ -24,11 +24,7 @@ struct GroupDetailToolbar: ToolbarContent {
                 }
             } label: {
                 Image(systemName: "square.and.arrow.up")
-                    .foregroundStyle(viewModel.hasBills ? Color.white : Color.black)
             }
-            .menuStyle(.button)
-            .buttonStyle(.borderedProminent)
-            .tint(.orange)
             .disabled(!viewModel.hasBills)
             .accessibilityLabel("Share options")
             .accessibilityHint(
