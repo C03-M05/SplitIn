@@ -44,17 +44,21 @@ struct GroupDetailView: View {
                         showCreateBill = true
                     }
                     .buttonStyle(.primary)
-                    .accessibilityLabel("Tambah Tagihan")
-                    .accessibilityHint("Ketuk untuk menambahkan tagihan baru ke grup ini")
+                    .accessibilityLabel("Add Bill")
+                    .accessibilityHint("Double tap to add a new bill to this group")
                     .padding(.trailing, 20)
                     .padding(.vertical, 5)
                 }
             }
         }
         .background(Color.appBackground)
+        // ♿ Hide the underlying list from VoiceOver while the delete confirmation is up,
+        // so swiping doesn't reach bill rows hidden behind the dimmed overlay.
+        .accessibilityHidden(viewModel.showDeleteAlert)
         .overlay {
             if viewModel.showDeleteAlert {
                 deleteConfirmationOverlay
+                    .accessibilityAddTraits(.isModal)
             }
         }
         .sheet(item: $selectedBill) { bill in
@@ -99,7 +103,7 @@ struct GroupDetailView: View {
             Text("Add Bill")
                 .font(.bodyText)
                 .foregroundStyle(Color.textSecondary)
-                .accessibilityLabel("Belum ada tagihan, ketuk Add Bill untuk menambahkan")
+                .accessibilityLabel("No bills yet. Tap Add Bill to add one.")
 
             Spacer()
         }
@@ -228,6 +232,7 @@ struct GroupDetailView: View {
                         .font(.cardLabel)
                         .fontWeight(.bold)
                         .foregroundStyle(Color.textPrimary)
+                        .accessibilityAddTraits(.isHeader)
 
                     Text("This action cannot be undone")
                         .font(.bodyText)
@@ -246,7 +251,7 @@ struct GroupDetailView: View {
                     .fontWeight(.semibold)
                     .clipShape(Capsule())
                     .buttonStyle(.plain)
-                    .accessibilityLabel("Batalkan penghapusan")
+                    .accessibilityLabel("Cancel deletion")
 
                     Button("Delete") {
                         viewModel.confirmDelete(using: modelContext)
@@ -259,7 +264,7 @@ struct GroupDetailView: View {
                     .fontWeight(.semibold)
                     .clipShape(Capsule())
                     .buttonStyle(.plain)
-                    .accessibilityLabel("Konfirmasi hapus tagihan")
+                    .accessibilityLabel("Confirm delete bill")
                 }
             }
             .padding(20)
