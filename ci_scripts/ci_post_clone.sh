@@ -7,11 +7,14 @@
 
 #!/bin/sh
 
-# Move up to repository root folder where .xcodeproj / .xcworkspace lives
+# Pindah ke root directory repository
 cd "$(dirname "$0")/.."
 
 echo "=== Building test products for Xcode Cloud ==="
 
+# Menjalankan build-for-testing dan mengekspor hasilnya ke lokasi TestProducts
 xcodebuild build-for-testing \
   -scheme SplitIn \
-  -destination 'platform=iOS Simulator,name=iPhone 17'
+  -destination 'platform=iOS Simulator,name=iPhone 17' \
+  -testPlan SplitIn \
+  -derivedDataPath /Volumes/workspace/DerivedData
