@@ -9,35 +9,13 @@ import SwiftData
 import SwiftUI
 
 struct ContentView: View {
-    @State
-    private var isShowingAddGroup = false
-
     var body: some View {
         NavigationStack {
             SplitGroupsView(
-                onAddGroup: showAddGroup
+                onAddGroup: {}
             )
-        }
-        .sheet(
-            isPresented: $isShowingAddGroup
-        ) {
-            AddGroupView(
-                onCancel: dismissAddGroup,
-                onSaved: dismissAddGroup
-            )
-            .presentationDetents([.large])
-            .presentationDragIndicator(.visible)
-            .presentationCornerRadius(28)
         }
         .preferredColorScheme(.dark)
-    }
-
-    private func showAddGroup() {
-        isShowingAddGroup = true
-    }
-
-    private func dismissAddGroup() {
-        isShowingAddGroup = false
     }
 }
 
