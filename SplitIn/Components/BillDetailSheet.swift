@@ -39,8 +39,8 @@ struct BillDetailSheet: View {
                                     )
                         }
                         .buttonStyle(.plain)
-                        .accessibilityLabel("Tutup")
-                        .accessibilityHint("Tutup lembar detail tagihan")
+                        .accessibilityLabel("Close")
+                        .accessibilityHint("Closes the bill detail sheet")
 
                         Spacer()
 
@@ -56,8 +56,8 @@ struct BillDetailSheet: View {
                                     )
                         }
                         .buttonStyle(.plain)
-                        .accessibilityLabel("Ubah")
-                        .accessibilityHint("Edit informasi detail tagihan ini")
+                        .accessibilityLabel("Edit")
+                        .accessibilityHint("Opens editing for this bill's details")
                     }
                 }
                 .padding(.horizontal, 20)
