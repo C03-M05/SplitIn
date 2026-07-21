@@ -14,7 +14,7 @@ struct PrimaryButtonStyle: ButtonStyle {
         configuration.label
             .font(.buttonLabel)
             .fontWeight(.semibold)
-            .foregroundStyle(.white)
+            .foregroundStyle(.black)
             .padding(.horizontal, 24)
             .padding(.vertical, 12)
             .background(
