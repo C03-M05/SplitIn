@@ -43,10 +43,10 @@ struct AddGroupToolbar: ToolbarContent {
         ) {
             Button(action: onSave) {
                 Image(systemName: "checkmark")
-                    .foregroundStyle(canSave ? Color.white : Color.black)
+                    .foregroundStyle(canSave ? Color.white : Color.secondary)
             }
             .buttonStyle(.borderedProminent)
-            .tint(.orange)
+            .tint(canSave ? .orange : Color(.systemGray5))
             .disabled(!canSave)
             .accessibilityLabel("Save group")
             .accessibilityHint(

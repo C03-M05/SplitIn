@@ -15,6 +15,8 @@ struct BillRowView: View {
     let onTap: () -> Void
     let onDelete: () -> Void
 
+    @State private var isShowingDeleteConfirmation = false
+
     var body: some View {
         Button(action: onTap) {
             HStack {
@@ -45,11 +47,23 @@ struct BillRowView: View {
             )
         }
         .buttonStyle(.plain)
-        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-            Button(role: .destructive, action: onDelete) {
+        .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+            Button {
+                isShowingDeleteConfirmation = true
+            } label: {
                 Image(systemName: "trash.fill")
             }
+            .tint(.red)
             .accessibilityLabel("Delete \(bill.name)")
+        }
+        .confirmationDialog(
+            "Delete Bill",
+            isPresented: $isShowingDeleteConfirmation,
+            titleVisibility: .visible
+        ) {
+            Button("Delete Bill", role: .destructive, action: onDelete)
+        } message: {
+            Text("This bill will be removed from your group.")
         }
         .accessibilityElement(children: .combine)
         .accessibilityLabel("\(bill.name), \(displayTotal)")

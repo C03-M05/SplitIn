@@ -99,7 +99,7 @@ struct SplitGroupsView: View {
             .presentationCornerRadius(28)
         }
         .alert(
-            "Delete Group",
+            deleteGroupTitle,
             isPresented: deleteGroupPresentationBinding
         ) {
             Button(
@@ -109,13 +109,13 @@ struct SplitGroupsView: View {
             )
 
             Button(
-                "Delete",
+                "Delete Group",
                 role: .destructive,
                 action: deletePendingGroup
             )
             .accessibilityLabel("Delete group")
         } message: {
-            Text(deleteGroupMessage)
+            Text("This will delete all bills in the group")
         }
         .navigationDestination(item: $selectedGroup) { target in
             GroupDetailView(
@@ -254,12 +254,12 @@ struct SplitGroupsView: View {
         return "\(count) members"
     }
 
-    private var deleteGroupMessage: String {
+    private var deleteGroupTitle: String {
         guard let groupPendingDeletion else {
-            return "This group will be permanently deleted."
+            return "Delete group?"
         }
 
-        return "\(groupPendingDeletion.name) will be permanently deleted."
+        return "Delete group \"\(groupPendingDeletion.name)\"?"
     }
 
     private var deleteGroupPresentationBinding: Binding<Bool> {
