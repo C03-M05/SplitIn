@@ -13,11 +13,15 @@ import Combine
 
 class RepaymentChecklistViewModel: ObservableObject {
     private let group: Group
-        
+
+    var hasBills: Bool {
+        !group.bills.isEmpty
+    }
+
     init(group: Group) {
         self.group = group
     }
-        
+
     // Function utama untuk copy checklist ke clipboard
     @MainActor
     func CopyChecklisttoClipboard() {

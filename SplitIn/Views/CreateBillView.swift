@@ -28,37 +28,8 @@ struct CreateBillView: View {
     
     var body: some View {
         @Bindable var vm = viewModel
-        
-        VStack(spacing: 0) {
-            // Header Navigasi
-            TopNavigationBar(
-                title: vm.isEditMode ? "Edit Bill" : "Create Bill",
-                isComplete: vm.isFormValid,
-                onCancel: {
-                    let hasStartedTyping = !vm.billName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-                    let hasAddedPrices = vm.formItems.contains { $0.price > 0 || !$0.name.isEmpty }
-                    
-                    if hasStartedTyping || hasAddedPrices {
-                        showCancelConfirmation = true
-                    } else {
-                        dismiss()
-                    }
-                },
-                onSave: {
-                    vm.saveBill(modelContext: modelContext)
-                    dismiss()
-                }
-            )
-            // ALERT close
-            .alert("Batalkan Nota?", isPresented: $showCancelConfirmation) {
-                            Button("Lanjutkan Mengisi", role: .cancel) { }
-                            Button("Buang", role: .destructive) {
-                                dismiss()
-                            }
-                        } message: {
-                            Text("Perubahan yang Anda buat belum disimpan. Apakah Anda yakin ingin membuang nota ini?")
-                        }
-            
+
+        NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
                     
@@ -212,7 +183,38 @@ struct CreateBillView: View {
             } message: {
                 Text("Are you sure you want to delete this item?")
             }
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle(vm.isEditMode ? "Edit Bill" : "Create Bill")
+            .toolbar {
+                CreateBillToolbar(
+                    title: vm.isEditMode ? "Edit Bill" : "Create Bill",
+                    canSave: vm.isFormValid,
+                    onCancel: {
+                        let hasStartedTyping = !vm.billName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                        let hasAddedPrices = vm.formItems.contains { $0.price > 0 || !$0.name.isEmpty }
+
+                        if hasStartedTyping || hasAddedPrices {
+                            showCancelConfirmation = true
+                        } else {
+                            dismiss()
+                        }
+                    },
+                    onSave: {
+                        vm.saveBill(modelContext: modelContext)
+                        dismiss()
+                    }
+                )
+            }
+            .alert("Batalkan Nota?", isPresented: $showCancelConfirmation) {
+                Button("Lanjutkan Mengisi", role: .cancel) { }
+                Button("Buang", role: .destructive) {
+                    dismiss()
+                }
+            } message: {
+                Text("Perubahan yang Anda buat belum disimpan. Apakah Anda yakin ingin membuang nota ini?")
+            }
         }
+        .interactiveDismissDisabled(true)
     }
 }
 
