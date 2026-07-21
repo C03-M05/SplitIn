@@ -40,6 +40,7 @@ struct MemberAvatarView: View {
         ZStack {
             Circle()
                 .fill(Color.secondary.opacity(0.14))
+                .glassEffect()
 
             Text(member.initial)
                 .font(.title2.bold())

@@ -29,6 +29,7 @@ struct MemberFilterBar: View {
                             .padding(.vertical, 7)
                             .background(
                                 Capsule().fill(isSelected ? Color.accentOrange : Color.cardBackground)
+                                    .glassEffect()
                             )
                     }
                     .buttonStyle(.plain)
