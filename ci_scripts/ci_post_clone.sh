@@ -6,8 +6,4 @@
 //
 
 #!/bin/sh
-
-# Pindah ke root folder project
-cd "$(dirname "$0")/.."
-
-echo "=== Xcode Cloud Environment Ready ==="
+echo "=== Ready for Xcode Cloud ==="
