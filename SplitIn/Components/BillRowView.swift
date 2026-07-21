@@ -53,7 +53,7 @@ struct BillRowView: View {
         }
         .accessibilityElement(children: .combine)
         .accessibilityLabel("\(bill.name), \(displayTotal)")
-        .accessibilityHint("Tap to view details, swipe left to delete")
+        .accessibilityHint("Double tap to view details. Delete is available as an action.")
     }
 }
 

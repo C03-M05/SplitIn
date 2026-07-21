@@ -205,13 +205,13 @@ struct CreateBillView: View {
                     }
                 )
             }
-            .alert("Batalkan Nota?", isPresented: $showCancelConfirmation) {
-                Button("Lanjutkan Mengisi", role: .cancel) { }
-                Button("Buang", role: .destructive) {
+            .alert("Discard Bill?", isPresented: $showCancelConfirmation) {
+                Button("Keep Editing", role: .cancel) { }
+                Button("Discard", role: .destructive) {
                     dismiss()
                 }
             } message: {
-                Text("Perubahan yang Anda buat belum disimpan. Apakah Anda yakin ingin membuang nota ini?")
+                Text("Your changes haven't been saved. Are you sure you want to discard this bill?")
             }
         }
         .interactiveDismissDisabled(true)

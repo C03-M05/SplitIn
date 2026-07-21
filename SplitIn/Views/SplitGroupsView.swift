@@ -152,9 +152,7 @@ struct SplitGroupsView: View {
         .listRowBackground(Color.clear)
         .accessibilityElement(children: .combine)
         .accessibilityLabel("\(group.name), \(memberCountText(for: group))")
-        .accessibilityHint("Opens the group details. Swipe right to edit or swipe left to delete.")
-        .accessibilityAction(named: "Edit group") { beginEditing(group) }
-        .accessibilityAction(named: "Delete group") { beginDeleting(group) }
+        .accessibilityHint("Opens the group details. Edit and delete are available as actions.")
     }
 
     // MARK: - Add Group Button
