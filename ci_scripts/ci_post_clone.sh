@@ -12,13 +12,9 @@ cd "$(dirname "$0")/.."
 
 echo "=== Pre-building Test Bundle for Xcode Cloud ==="
 
-# Build test bundle dan letakkan langsung di TestProducts
+# Minta xcodebuild me-build DAN mengekspor langsung ke folder TestProducts
 xcodebuild build-for-testing \
   -scheme SplitIn \
-  -destination 'platform=iOS Simulator,name=iPhone 17' \
+  -destination 'generic/platform=iOS Simulator' \
   -testPlan SplitIn \
-  -derivedDataPath /Volumes/workspace/DerivedData
-
-# Copy hasil build tes ke folder yang dicari Runner Action Test
-mkdir -p /Volumes/workspace/TestProducts.xctestproducts
-cp -R /Volumes/workspace/DerivedData/Build/Products/* /Volumes/workspace/TestProducts.xctestproducts/ 2>/dev/null || true
+  -testProductsPath /Volumes/workspace/TestProducts.xctestproducts
