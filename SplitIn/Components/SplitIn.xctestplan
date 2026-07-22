@@ -1,0 +1,31 @@
+{
+  "configurations" : [
+    {
+      "id" : "A2502CB6-9EAF-40BF-8CD4-CF6BFF69F835",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:SplitIn.xcodeproj",
+        "identifier" : "099F3A7C30047656000BD400",
+        "name" : "SplitInUITests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:SplitIn.xcodeproj",
+        "identifier" : "099F3A7230047656000BD400",
+        "name" : "SplitInTests"
+      }
+    }
+  ],
+  "version" : 1
+}
