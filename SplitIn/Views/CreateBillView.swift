@@ -90,14 +90,14 @@ struct CreateBillView: View {
                         .fontWeight(.bold)
                         .foregroundColor(.primary)
                     
-                    // Looping index items
-                    ForEach(0..<vm.formItems.count, id: \.self) { index in
+                    // Looping items
+                    ForEach($vm.formItems) { $item in
                         BillItemRow(
-                            item: $vm.formItems[index],
+                            item: $item,
                             members: vm.currentGroup.members,
                             showDeleteButton: vm.formItems.count > 1
                         ) {
-                            vm.removeItem(id: vm.formItems[index].id)
+                            vm.removeItem(id: item.id)
                         }
                     }
                     
