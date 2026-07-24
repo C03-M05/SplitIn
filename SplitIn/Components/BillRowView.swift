@@ -38,6 +38,10 @@ struct BillRowView: View {
                     .font(.sectionHeader)
                     .fontWeight(.bold)
                     .foregroundStyle(Color.textPrimary)
+                
+                Image(systemName: "chevron.right")
+                                    .font(.system(size: 14, weight: .semibold))
+                                    .foregroundStyle(.secondary)
             }
             .padding(16)
             .frame(maxWidth: .infinity)

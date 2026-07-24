@@ -167,6 +167,7 @@ struct CreateBillView: View {
                 }
                 .padding(20)
             }
+            .scrollDismissesKeyboard(.immediately)
             .background(Color(.systemGray6))
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle(vm.isEditMode ? "Edit Bill" : "Create Bill")
@@ -243,13 +244,19 @@ struct BillItemRow: View {
                 .accessibilityLabel("Item \(item.displayIndex) name")
             
             HStack(spacing: 16) {
-                HStack(spacing: 4) {
-                    Text("Rp")
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Price/item")
+                        .font(.caption)
                         .foregroundColor(.secondary)
-                        .fontWeight(.semibold)
-                    
-                    TextField("0", text: $item.priceBindingString)
-                        .keyboardType(.numberPad)
+
+                    HStack(spacing: 4) {
+                        Text("Rp")
+                            .foregroundColor(.secondary)
+                            .fontWeight(.semibold)
+
+                        TextField("0", text: $item.priceBindingString)
+                            .keyboardType(.numberPad)
+                    }
                 }
                 .padding(10)
                 .background(Color(.systemGray5))
