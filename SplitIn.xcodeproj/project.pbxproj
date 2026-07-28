@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		09E779963018118B00C48DD3 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09E779953018118B00C48DD3 /* WidgetKit.framework */; };
+		09E779983018118B00C48DD3 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09E779973018118B00C48DD3 /* SwiftUI.framework */; };
+		09E779A53018118C00C48DD3 /* SplitInWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 09E779933018118B00C48DD3 /* SplitInWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		099F3A7430047656000BD400 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -21,16 +27,56 @@
 			remoteGlobalIDString = 099F3A6330047655000BD400;
 			remoteInfo = SplitIn;
 		};
+		09E779A33018118C00C48DD3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 099F3A5C30047655000BD400 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 09E779923018118B00C48DD3;
+			remoteInfo = SplitInWidgetExtension;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		09E779A63018118C00C48DD3 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				09E779A53018118C00C48DD3 /* SplitInWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		090205D1300BA8D900EAA35F /* SplitIn 1.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; name = "SplitIn 1.xctestplan"; path = "SplitInTests/SplitIn 1.xctestplan"; sourceTree = "<group>"; };
 		099F3A6430047655000BD400 /* SplitIn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SplitIn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		099F3A7330047656000BD400 /* SplitInTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SplitInTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		099F3A7D30047656000BD400 /* SplitInUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SplitInUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		09E779933018118B00C48DD3 /* SplitInWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SplitInWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		09E779953018118B00C48DD3 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		09E779973018118B00C48DD3 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		09E779B5301821D500C48DD3 /* SplitIn.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SplitIn.entitlements; sourceTree = "<group>"; };
+		09E779B83018222900C48DD3 /* SplitInWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SplitInWidgetExtension.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		09E779AA3018118C00C48DD3 /* Exceptions for "SplitInWidget" folder in "SplitInWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 09E779923018118B00C48DD3 /* SplitInWidgetExtension */;
+		};
+		09E779AE301816EC00C48DD3 /* Exceptions for "SplitIn" folder in "SplitIn" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 099F3A6330047655000BD400 /* SplitIn */;
+		};
 		92A5B0C630047D110004FE16 /* Exceptions for "SplitIn" folder in "SplitInTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -51,6 +97,7 @@
 		099F3A6630047655000BD400 /* SplitIn */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
+				09E779AE301816EC00C48DD3 /* Exceptions for "SplitIn" folder in "SplitIn" target */,
 				92A5B0C630047D110004FE16 /* Exceptions for "SplitIn" folder in "SplitInTests" target */,
 				92A5B0C730047D110004FE16 /* Exceptions for "SplitIn" folder in "SplitInUITests" target */,
 			);
@@ -65,6 +112,14 @@
 		099F3A8030047656000BD400 /* SplitInUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = SplitInUITests;
+			sourceTree = "<group>";
+		};
+		09E779993018118B00C48DD3 /* SplitInWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				09E779AA3018118C00C48DD3 /* Exceptions for "SplitInWidget" folder in "SplitInWidgetExtension" target */,
+			);
+			path = SplitInWidget;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -91,17 +146,30 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		09E779903018118B00C48DD3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				09E779983018118B00C48DD3 /* SwiftUI.framework in Frameworks */,
+				09E779963018118B00C48DD3 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		099F3A5B30047655000BD400 = {
 			isa = PBXGroup;
 			children = (
+				09E779B83018222900C48DD3 /* SplitInWidgetExtension.entitlements */,
 				090205D1300BA8D900EAA35F /* SplitIn 1.xctestplan */,
 				099F3A6630047655000BD400 /* SplitIn */,
 				099F3A7630047656000BD400 /* SplitInTests */,
 				099F3A8030047656000BD400 /* SplitInUITests */,
+				09E779993018118B00C48DD3 /* SplitInWidget */,
+				09E779943018118B00C48DD3 /* Frameworks */,
 				099F3A6530047655000BD400 /* Products */,
+				09E779B5301821D500C48DD3 /* SplitIn.entitlements */,
 			);
 			sourceTree = "<group>";
 		};
@@ -111,8 +179,18 @@
 				099F3A6430047655000BD400 /* SplitIn.app */,
 				099F3A7330047656000BD400 /* SplitInTests.xctest */,
 				099F3A7D30047656000BD400 /* SplitInUITests.xctest */,
+				09E779933018118B00C48DD3 /* SplitInWidgetExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		09E779943018118B00C48DD3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				09E779953018118B00C48DD3 /* WidgetKit.framework */,
+				09E779973018118B00C48DD3 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -125,10 +203,12 @@
 				099F3A6030047655000BD400 /* Sources */,
 				099F3A6130047655000BD400 /* Frameworks */,
 				099F3A6230047655000BD400 /* Resources */,
+				09E779A63018118C00C48DD3 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				09E779A43018118C00C48DD3 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				099F3A6630047655000BD400 /* SplitIn */,
@@ -186,6 +266,28 @@
 			productReference = 099F3A7D30047656000BD400 /* SplitInUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		09E779923018118B00C48DD3 /* SplitInWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 09E779A93018118C00C48DD3 /* Build configuration list for PBXNativeTarget "SplitInWidgetExtension" */;
+			buildPhases = (
+				09E7798F3018118B00C48DD3 /* Sources */,
+				09E779903018118B00C48DD3 /* Frameworks */,
+				09E779913018118B00C48DD3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				09E779993018118B00C48DD3 /* SplitInWidget */,
+			);
+			name = SplitInWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = SplitInWidgetExtension;
+			productReference = 09E779933018118B00C48DD3 /* SplitInWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -207,6 +309,9 @@
 						CreatedOnToolsVersion = 26.6;
 						TestTargetID = 099F3A6330047655000BD400;
 					};
+					09E779923018118B00C48DD3 = {
+						CreatedOnToolsVersion = 26.6;
+					};
 				};
 			};
 			buildConfigurationList = 099F3A5F30047655000BD400 /* Build configuration list for PBXProject "SplitIn" */;
@@ -226,6 +331,7 @@
 				099F3A6330047655000BD400 /* SplitIn */,
 				099F3A7230047656000BD400 /* SplitInTests */,
 				099F3A7C30047656000BD400 /* SplitInUITests */,
+				09E779923018118B00C48DD3 /* SplitInWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -246,6 +352,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		099F3A7B30047656000BD400 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		09E779913018118B00C48DD3 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -276,6 +389,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		09E7798F3018118B00C48DD3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -288,6 +408,11 @@
 			isa = PBXTargetDependency;
 			target = 099F3A6330047655000BD400 /* SplitIn */;
 			targetProxy = 099F3A7E30047656000BD400 /* PBXContainerItemProxy */;
+		};
+		09E779A43018118C00C48DD3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 09E779923018118B00C48DD3 /* SplitInWidgetExtension */;
+			targetProxy = 09E779A33018118C00C48DD3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -416,11 +541,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = SplitIn/SplitIn.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = B3W96FJVQ4;
+				DEVELOPMENT_TEAM = 8LC8H9PX8C;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SplitIn/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -431,7 +558,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.farhanqf.SplitIn;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ahmadfarhanqf.SplitIn;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -452,11 +579,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = SplitIn/SplitIn.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = B3W96FJVQ4;
+				DEVELOPMENT_TEAM = 8LC8H9PX8C;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SplitIn/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -467,7 +596,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.farhanqf.SplitIn;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ahmadfarhanqf.SplitIn;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -489,7 +618,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 99ZSM76PJ3;
+				DEVELOPMENT_TEAM = 8LC8H9PX8C;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
 				MARKETING_VERSION = 1.0;
@@ -511,7 +640,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 99ZSM76PJ3;
+				DEVELOPMENT_TEAM = 8LC8H9PX8C;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
 				MARKETING_VERSION = 1.0;
@@ -532,7 +661,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 99ZSM76PJ3;
+				DEVELOPMENT_TEAM = 8LC8H9PX8C;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.farhanqf.SplitInUITests;
@@ -552,7 +681,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 99ZSM76PJ3;
+				DEVELOPMENT_TEAM = 8LC8H9PX8C;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.farhanqf.SplitInUITests;
@@ -564,6 +693,68 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = SplitIn;
+			};
+			name = Release;
+		};
+		09E779A73018118C00C48DD3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = SplitInWidget/SplitInWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8LC8H9PX8C;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SplitInWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SplitInWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ahmadfarhanqf.SplitIn.SplitInWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		09E779A83018118C00C48DD3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = SplitInWidget/SplitInWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8LC8H9PX8C;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SplitInWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SplitInWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ahmadfarhanqf.SplitIn.SplitInWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -602,6 +793,15 @@
 			buildConfigurations = (
 				099F3A8E30047656000BD400 /* Debug */,
 				099F3A8F30047656000BD400 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		09E779A93018118C00C48DD3 /* Build configuration list for PBXNativeTarget "SplitInWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				09E779A73018118C00C48DD3 /* Debug */,
+				09E779A83018118C00C48DD3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

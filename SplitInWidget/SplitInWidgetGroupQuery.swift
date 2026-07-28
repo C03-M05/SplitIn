@@ -1,0 +1,46 @@
+//
+//  SplitInWidgetGroupQuery.swift
+//  SplitInWidget
+//
+
+import AppIntents
+
+struct SplitInWidgetGroupQuery: EntityStringQuery {
+    func entities(matching string: String) async throws -> [SplitInWidgetGroupEntity] {
+        entities().filter { entity in
+            entity.name.localizedCaseInsensitiveContains(string)
+        }
+    }
+
+    func entities(for identifiers: [String]) async throws -> [SplitInWidgetGroupEntity] {
+        let allEntities = entities()
+        return identifiers.compactMap { identifier in
+            allEntities.first { $0.id == identifier }
+        }
+    }
+
+    func suggestedEntities() async throws -> [SplitInWidgetGroupEntity] {
+        entities()
+    }
+
+    private func entities() -> [SplitInWidgetGroupEntity] {
+        let snapshot = SplitInWidgetStore.loadSnapshot()
+        let groups = snapshot.groups.map { group in
+            SplitInWidgetGroupEntity(
+                id: group.id.uuidString,
+                name: group.name
+            )
+        }
+
+        if groups.isEmpty {
+            return [
+                SplitInWidgetGroupEntity(
+                    id: SplitInWidgetGroupEntity.placeholderID,
+                    name: "No groups yet"
+                )
+            ]
+        }
+
+        return groups
+    }
+}
