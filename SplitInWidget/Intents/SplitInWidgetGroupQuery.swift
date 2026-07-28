@@ -2,9 +2,12 @@
 //  SplitInWidgetGroupQuery.swift
 //  SplitInWidget
 //
+//  Created by ahmadfarhanqf on 28/07/26.
+//
 
 import AppIntents
 
+// Query AppIntents untuk mencari dan menyarankan group pada Edit Widget.
 struct SplitInWidgetGroupQuery: EntityStringQuery {
     func entities(matching string: String) async throws -> [SplitInWidgetGroupEntity] {
         entities().filter { entity in

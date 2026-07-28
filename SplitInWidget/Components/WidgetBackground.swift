@@ -2,9 +2,12 @@
 //  WidgetBackground.swift
 //  SplitInWidget
 //
+//  Created by ahmadfarhanqf on 28/07/26.
+//
 
 import SwiftUI
 
+// Background yang digunakan oleh seluruh widget.
 struct WidgetBackground: View {
     var body: some View {
         LinearGradient(

@@ -2,9 +2,12 @@
 //  BillList.swift
 //  SplitInWidget
 //
+//  Created by ahmadfarhanqf on 28/07/26.
+//
 
 import SwiftUI
 
+// Menampilkan daftar bill terbaru pada widget ukuran medium.
 struct BillList: View {
     let bills: [SplitInWidgetBillSnapshot]
     let scale: CGFloat

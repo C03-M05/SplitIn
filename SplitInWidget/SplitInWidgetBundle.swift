@@ -9,6 +9,7 @@ import WidgetKit
 import SwiftUI
 
 @main
+// Entry point extension yang mendaftarkan semua widget SplitIn ke WidgetKit.
 struct SplitInWidgetBundle: WidgetBundle {
     var body: some Widget {
         SplitInWidget()

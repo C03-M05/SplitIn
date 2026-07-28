@@ -2,11 +2,14 @@
 //  CopyChecklistIntent.swift
 //  SplitInWidget
 //
+//  Created by ahmadfarhanqf on 28/07/26.
+//
 
 import AppIntents
 import Foundation
 import UIKit
 
+// Intent interaktif untuk menyalin checklist group tanpa membuka app.
 struct CopyChecklistIntent: AppIntent {
     static var title: LocalizedStringResource = "Copy Checklist"
     static var description = IntentDescription("Copies the selected SplitIn checklist without opening the app.")

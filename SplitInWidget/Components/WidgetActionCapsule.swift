@@ -2,9 +2,12 @@
 //  WidgetActionCapsule.swift
 //  SplitInWidget
 //
+//  Created by ahmadfarhanqf on 28/07/26.
+//
 
 import SwiftUI
 
+// Komponen tombol untuk aksi widget.
 struct WidgetActionCapsule: View {
     enum Style {
         case orange

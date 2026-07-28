@@ -2,10 +2,13 @@
 //  SplitInWidgetEntry.swift
 //  SplitInWidget
 //
+//  Created by ahmadfarhanqf on 28/07/26.
+//
 
 import Foundation
 import WidgetKit
 
+// Entry timeline yang membawa snapshot group ke tampilan widget.
 struct SplitInWidgetEntry: TimelineEntry {
     let date: Date
     let group: SplitInWidgetGroupSnapshot?

@@ -2,10 +2,13 @@
 //  SplitInWidgetEntryView.swift
 //  SplitInWidget
 //
+//  Created by ahmadfarhanqf on 28/07/26.
+//
 
 import SwiftUI
 import WidgetKit
 
+// Root view yang memilih layout widget berdasarkan ukuran.
 struct SplitInWidgetEntryView: View {
     @Environment(\.widgetFamily) private var family
 

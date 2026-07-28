@@ -2,10 +2,13 @@
 //  SmallSplitInWidgetView.swift
 //  SplitInWidget
 //
+//  Created by ahmadfarhanqf on 28/07/26.
+//
 
 import AppIntents
 import SwiftUI
 
+// Tampilan small widget dengan judul group dan dua tombol aksi utama.
 struct SmallSplitInWidgetView: View {
     let entry: SplitInWidgetEntry
 

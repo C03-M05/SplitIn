@@ -2,10 +2,13 @@
 //  MediumSplitInWidgetView.swift
 //  SplitInWidget
 //
+//  Created by ahmadfarhanqf on 28/07/26.
+//
 
 import AppIntents
 import SwiftUI
 
+// Tampilan medium widget dengan judul group, total, daftar bill, dan tombol aksi.
 struct MediumSplitInWidgetView: View {
     let entry: SplitInWidgetEntry
 

@@ -2,11 +2,14 @@
 //  SplitInWidgetProvider.swift
 //  SplitInWidget
 //
+//  Created by ahmadfarhanqf on 28/07/26.
+//
 
 import AppIntents
 import Foundation
 import WidgetKit
 
+// Provider timeline yang memuat snapshot sesuai konfigurasi group widget.
 struct SplitInWidgetProvider: AppIntentTimelineProvider {
     func placeholder(in context: Context) -> SplitInWidgetEntry {
         .preview()

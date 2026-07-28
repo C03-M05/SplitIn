@@ -8,6 +8,7 @@
 import WidgetKit
 import SwiftUI
 
+// Mendefinisikan konfigurasi utama widget SplitIn dan family yang didukung.
 struct SplitInWidget: Widget {
     let kind = SplitInWidgetStore.widgetKind
 

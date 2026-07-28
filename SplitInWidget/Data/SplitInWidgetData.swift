@@ -2,9 +2,12 @@
 //  SplitInWidgetData.swift
 //  SplitInWidget
 //
+//  Created by ahmadfarhanqf on 28/07/26.
+//
 
 import Foundation
 
+// Snapshot untuk satu bill yang dibaca oleh widget.
 struct SplitInWidgetBillSnapshot: Codable, Identifiable, Hashable {
     let id: UUID
     let name: String
@@ -13,6 +16,7 @@ struct SplitInWidgetBillSnapshot: Codable, Identifiable, Hashable {
     let billDate: Date?
 }
 
+// Snapshot satu group beserta bill dan teks checklist untuk ditampilkan widget.
 struct SplitInWidgetGroupSnapshot: Codable, Identifiable, Hashable {
     let id: UUID
     let name: String
@@ -26,6 +30,7 @@ struct SplitInWidgetGroupSnapshot: Codable, Identifiable, Hashable {
     }
 }
 
+// Snapshot full yang disimpan app dan dibaca widget dari App Group.
 struct SplitInWidgetSnapshot: Codable, Hashable {
     let updatedAt: Date
     let groups: [SplitInWidgetGroupSnapshot]
@@ -42,6 +47,7 @@ struct SplitInWidgetSnapshot: Codable, Hashable {
     }
 }
 
+// Formatter angka Rupiah untuk tampilan ringkas di widget.
 enum SplitInWidgetFormatter {
     static func shortRupiah(_ amount: Decimal) -> String {
         let value = NSDecimalNumber(decimal: amount).doubleValue
@@ -55,6 +61,7 @@ enum SplitInWidgetFormatter {
     }
 }
 
+// Reader snapshot widget dari shared UserDefaults milik App Group.
 enum SplitInWidgetStore {
     static let appGroupIdentifier = "group.com.ahmadfarhanqf.SplitIn"
     static let widgetKind = "SplitInWidget"
