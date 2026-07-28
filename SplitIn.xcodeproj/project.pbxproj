@@ -7,9 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		09E779963018118B00C48DD3 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09E779953018118B00C48DD3 /* WidgetKit.framework */; };
-		09E779983018118B00C48DD3 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09E779973018118B00C48DD3 /* SwiftUI.framework */; };
 		09E779A53018118C00C48DD3 /* SplitInWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 09E779933018118B00C48DD3 /* SplitInWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		09E77B283018585900C48DD3 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09E779973018118B00C48DD3 /* SwiftUI.framework */; };
+		09E77B293018585900C48DD3 /* SwiftUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 09E779973018118B00C48DD3 /* SwiftUI.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		09E77B2B3018585B00C48DD3 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09E779953018118B00C48DD3 /* WidgetKit.framework */; };
+		09E77B2C3018585B00C48DD3 /* WidgetKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 09E779953018118B00C48DD3 /* WidgetKit.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,10 +50,21 @@
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		09E77B2A3018585900C48DD3 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				09E77B293018585900C48DD3 /* SwiftUI.framework in Embed Frameworks */,
+				09E77B2C3018585B00C48DD3 /* WidgetKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		090205D1300BA8D900EAA35F /* SplitIn 1.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; name = "SplitIn 1.xctestplan"; path = "SplitInTests/SplitIn 1.xctestplan"; sourceTree = "<group>"; };
 		099F3A6430047655000BD400 /* SplitIn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SplitIn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		099F3A7330047656000BD400 /* SplitInTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SplitInTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		099F3A7D30047656000BD400 /* SplitInUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SplitInUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -150,8 +163,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				09E779983018118B00C48DD3 /* SwiftUI.framework in Frameworks */,
-				09E779963018118B00C48DD3 /* WidgetKit.framework in Frameworks */,
+				09E77B283018585900C48DD3 /* SwiftUI.framework in Frameworks */,
+				09E77B2B3018585B00C48DD3 /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -162,7 +175,6 @@
 			isa = PBXGroup;
 			children = (
 				09E779B83018222900C48DD3 /* SplitInWidgetExtension.entitlements */,
-				090205D1300BA8D900EAA35F /* SplitIn 1.xctestplan */,
 				099F3A6630047655000BD400 /* SplitIn */,
 				099F3A7630047656000BD400 /* SplitInTests */,
 				099F3A8030047656000BD400 /* SplitInUITests */,
@@ -273,6 +285,7 @@
 				09E7798F3018118B00C48DD3 /* Sources */,
 				09E779903018118B00C48DD3 /* Frameworks */,
 				09E779913018118B00C48DD3 /* Resources */,
+				09E77B2A3018585900C48DD3 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);

@@ -18,12 +18,18 @@ struct SplitInWidgetGroupQuery: EntityStringQuery {
     func entities(for identifiers: [String]) async throws -> [SplitInWidgetGroupEntity] {
         let allEntities = entities()
         return identifiers.compactMap { identifier in
-            allEntities.first { $0.id == identifier }
+            allEntities.first {
+                $0.id.caseInsensitiveCompare(identifier) == .orderedSame
+            }
         }
     }
 
     func suggestedEntities() async throws -> [SplitInWidgetGroupEntity] {
         entities()
+    }
+
+    func defaultResult() async -> SplitInWidgetGroupEntity? {
+        entities().first
     }
 
     private func entities() -> [SplitInWidgetGroupEntity] {
@@ -33,15 +39,6 @@ struct SplitInWidgetGroupQuery: EntityStringQuery {
                 id: group.id.uuidString,
                 name: group.name
             )
-        }
-
-        if groups.isEmpty {
-            return [
-                SplitInWidgetGroupEntity(
-                    id: SplitInWidgetGroupEntity.placeholderID,
-                    name: "No groups yet"
-                )
-            ]
         }
 
         return groups

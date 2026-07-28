@@ -137,7 +137,7 @@ struct SplitGroupsView: View {
             SplitInWidgetStore.save(groups: groups)
             openPendingCreateBillIfNeeded()
         }
-        .onChange(of: groups.map(\.id)) { _, _ in
+        .onChange(of: widgetSnapshotSignature) { _, _ in
             SplitInWidgetStore.save(groups: groups)
             openPendingCreateBillIfNeeded()
         }
@@ -262,6 +262,12 @@ struct SplitGroupsView: View {
     }
 
     // MARK: - Helpers
+
+    private var widgetSnapshotSignature: [String] {
+        groups.map { group in
+            "\(group.id.uuidString)-\(group.name)-\(group.bills.count)"
+        }
+    }
 
     private func openPendingCreateBillIfNeeded() {
         guard let pendingCreateBillGroupID,
