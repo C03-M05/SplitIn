@@ -191,6 +191,7 @@ struct CreateBillView: View {
                     },
                     onSave: {
                         vm.saveBill(modelContext: modelContext)
+                        SplitInWidgetStore.save(group: vm.currentGroup)
                         dismiss()
                     }
                 )

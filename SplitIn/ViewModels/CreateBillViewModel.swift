@@ -111,6 +111,7 @@ class CreateBillViewModel {
                 totalFinal: Decimal(finalAmount)
             )
             modelContext.insert(newBill)
+            currentGroup.bills.append(newBill)
             targetBill = newBill
         }
 
@@ -122,10 +123,12 @@ class CreateBillViewModel {
                 quantity: Decimal(formItem.quantity)
             )
             modelContext.insert(newBillItem)
+            targetBill.items.append(newBillItem)
             for memberID in formItem.assignedMemberIDs {
                 if let matchedMember = currentGroup.members.first(where: { $0.id == memberID }) {
                     let newSplit = ItemSplit(item: newBillItem, member: matchedMember)
                     modelContext.insert(newSplit)
+                    newBillItem.splits.append(newSplit)
                 }
             }
         }

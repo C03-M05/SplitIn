@@ -33,6 +33,8 @@ struct SplitGroupsView: View {
     )
     private var groups: [Group]
 
+    @Binding private var pendingCreateBillGroupID: UUID?
+
     // Ini Closure (Deep Dive lagi terkait Void ini)
     let onAddGroup: () -> Void
 
@@ -49,6 +51,14 @@ struct SplitGroupsView: View {
     @State private var selectedGroup: GroupNavigationTarget?
 
     @State private var showAddGroup = false
+
+    init(
+        pendingCreateBillGroupID: Binding<UUID?> = .constant(nil),
+        onAddGroup: @escaping () -> Void
+    ) {
+        _pendingCreateBillGroupID = pendingCreateBillGroupID
+        self.onAddGroup = onAddGroup
+    }
 
     var body: some View {
         ZStack {
@@ -122,6 +132,17 @@ struct SplitGroupsView: View {
                 viewModel: GroupDetailViewModel(group: target.group),
                 openCreateBillOnAppear: target.openCreateBillOnAppear
             )
+        }
+        .onAppear {
+            SplitInWidgetStore.save(groups: groups)
+            openPendingCreateBillIfNeeded()
+        }
+        .onChange(of: groups.map(\.id)) { _, _ in
+            SplitInWidgetStore.save(groups: groups)
+            openPendingCreateBillIfNeeded()
+        }
+        .onChange(of: pendingCreateBillGroupID) { _, _ in
+            openPendingCreateBillIfNeeded()
         }
     }
 
@@ -242,6 +263,20 @@ struct SplitGroupsView: View {
 
     // MARK: - Helpers
 
+    private func openPendingCreateBillIfNeeded() {
+        guard let pendingCreateBillGroupID,
+              let group = groups.first(where: { $0.id == pendingCreateBillGroupID })
+        else {
+            return
+        }
+
+        selectedGroup = GroupNavigationTarget(
+            group: group,
+            openCreateBillOnAppear: true
+        )
+        self.pendingCreateBillGroupID = nil
+    }
+
     private func memberCountText(
         for group: Group
     ) -> String {
@@ -292,6 +327,9 @@ struct SplitGroupsView: View {
 
         do {
             try modelContext.save()
+            SplitInWidgetStore.save(
+                groups: groups.filter { $0.id != groupPendingDeletion.id }
+            )
         } catch {
             modelContext.rollback()
         }

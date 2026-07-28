@@ -69,9 +69,15 @@ struct GroupDetailView: View {
             GroupDetailToolbar(viewModel: repaymentVM)
         }
         .onAppear {
+            refreshWidgetSnapshot()
             if openCreateBillOnAppear && !hasTriggeredInitialCreateBill {
                 showCreateBill = true
                 hasTriggeredInitialCreateBill = true
+            }
+        }
+        .onChange(of: showCreateBill) { _, isShowing in
+            if !isShowing {
+                refreshWidgetSnapshot()
             }
         }
     }
@@ -159,6 +165,8 @@ struct GroupDetailView: View {
                     onTap: { selectedBill = bill },
                     onDelete: {
                         viewModel.delete(bill: bill, using: modelContext)
+                        try? modelContext.save()
+                        refreshWidgetSnapshot()
                     }
                 )
                 .listRowBackground(Color.appBackground)
@@ -213,6 +221,9 @@ struct GroupDetailView: View {
         .listRowInsets(EdgeInsets(top: 6, leading: 20, bottom: 6, trailing: 20))
     }
 
+    private func refreshWidgetSnapshot() {
+        SplitInWidgetStore.save(group: viewModel.group)
+    }
 }
 
 #Preview("With Bills") {

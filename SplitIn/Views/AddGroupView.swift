@@ -83,6 +83,7 @@ struct AddGroupView: View {
     private func saveGroup() {
         let didSave = viewModel.save(in: modelContext)
         if didSave, let group = viewModel.savedGroup {
+            SplitInWidgetStore.save(group: group)
             onSaved(group)
         }
     }

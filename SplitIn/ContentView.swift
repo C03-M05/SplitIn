@@ -9,13 +9,36 @@ import SwiftData
 import SwiftUI
 
 struct ContentView: View {
+    @State private var pendingCreateBillGroupID: UUID?
+
     var body: some View {
         NavigationStack {
             SplitGroupsView(
+                pendingCreateBillGroupID: $pendingCreateBillGroupID,
                 onAddGroup: {}
             )
         }
+        .onOpenURL { url in
+            pendingCreateBillGroupID = Self.groupID(from: url)
+        }
         .preferredColorScheme(.dark)
+    }
+
+    private static func groupID(from url: URL) -> UUID? {
+        guard url.scheme == "splitin", url.host == "add-bill" else {
+            return nil
+        }
+
+        let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+        let rawGroupID = components?.queryItems?.first { item in
+            item.name == "groupID"
+        }?.value
+
+        guard let rawGroupID else {
+            return nil
+        }
+
+        return UUID(uuidString: rawGroupID)
     }
 }
 

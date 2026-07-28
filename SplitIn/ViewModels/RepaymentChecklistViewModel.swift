@@ -25,17 +25,21 @@ class RepaymentChecklistViewModel: ObservableObject {
     // Function utama untuk copy checklist ke clipboard
     @MainActor
     func CopyChecklisttoClipboard() {
+        let resultText = Self.checklistText(for: group)
+        UIPasteboard.general.string = resultText
+        triggerHapticFeedback()
+        
+        // Cetak log ke konsol Xcode untuk mempermudah pengecekan developer
+        print("LOG HASIL COPY:\n\(resultText)")
+    }
+
+    static func checklistText(for group: Group) -> String {
         var resultText = ""
         let sheet = group.balanceSheet()
         
         // Kondisi 1: Jika grup belum memiliki anggota sama sekali
         if group.members.isEmpty {
-            resultText = "*[📝 \(group.name)]* \n\n📣 Grup pengeluaran bersama telah dibuat. Siapkan nota kalian untuk dihitung bareng ya!"
-            
-            UIPasteboard.general.string = resultText
-            triggerHapticFeedback()
-            print("LOG HASIL COPY (GRUP KOSONG):\n\(resultText)")
-            return
+            return "*[📝 \(group.name)]* \n\n📣 Grup pengeluaran bersama telah dibuat. Siapkan nota kalian untuk dihitung bareng ya!"
         }
         
         // Cek udah ada kalkulasi atau masih kosong
@@ -53,11 +57,7 @@ class RepaymentChecklistViewModel: ObservableObject {
                 resultText += "👥 *\(member.person.name)*\n"
             }
             resultText += "\n⏳ Semua anggota sudah masuk daftar. Silakan melakukan input perhitungan bill!"
-            
-            UIPasteboard.general.string = resultText
-            triggerHapticFeedback()
-            print("LOG HASIL COPY (BELUM ADA BILL):\n\(resultText)")
-            return
+            return resultText
         }
         
         // Kondisi 3: sudah ada semua
@@ -71,7 +71,7 @@ class RepaymentChecklistViewModel: ObservableObject {
                 for entry in memberBalance.payTo {
                     // Mencari nama penerima dana berdasarkan UUID counterparty
                     if let creditor = group.members.first(where: { $0.id == entry.counterpartyMemberID }) {
-                        let formattedAmount = formatToRupiah(entry.amount)
+                        let formattedAmount = SplitInWidgetFormatter.rupiah(entry.amount)
                         // Format send to group chat
                         resultText += "pay to \(creditor.person.name.lowercased()): *\(formattedAmount)*\n"
                     }
@@ -80,12 +80,7 @@ class RepaymentChecklistViewModel: ObservableObject {
             }
         }
 
-        let cleanedText = resultText.trimmingCharacters(in: .whitespacesAndNewlines)
-        UIPasteboard.general.string = cleanedText
-        triggerHapticFeedback()
-        
-        // Cetak log ke konsol Xcode untuk mempermudah pengecekan developer
-        print("LOG HASIL COPY (SUKSES TERCANGKOP):\n\(cleanedText)")
+        return resultText.trimmingCharacters(in: .whitespacesAndNewlines)
     }
     
     // MARK: - PDF
