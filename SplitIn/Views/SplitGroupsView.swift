@@ -62,7 +62,7 @@ struct SplitGroupsView: View {
 
     var body: some View {
         ZStack {
-            Color(.systemBackground)
+            Color.appBackground
                 .ignoresSafeArea()
 
             VStack(spacing: 0) {
@@ -154,7 +154,7 @@ struct SplitGroupsView: View {
 
             Text("Add group")
                 .font(.footnote)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.textSecondary)
                 .multilineTextAlignment(.center)
                 .frame(maxWidth: .infinity)
                 .padding(.horizontal, 24)
@@ -228,7 +228,7 @@ struct SplitGroupsView: View {
                         .font(
                             .title2.weight(.semibold)
                         )
-                        .foregroundStyle(.black)
+                        .foregroundStyle(Color.textPrimary)
                         .frame(
                             width: addButtonSize,
                             height: addButtonSize
@@ -238,11 +238,11 @@ struct SplitGroupsView: View {
                 }
                 .buttonStyle(
                     .glass(
-                        .regular.tint(.orange)
+                        .regular.tint(Color.accentOrange)
                     )
                 )
                 .buttonBorderShape(.circle)
-                .tint(.orange)
+                .tint(Color.accentOrange)
                 .accessibilityLabel("Add group")
                 .accessibilityHint(
                     "Opens a form to create a new split group."

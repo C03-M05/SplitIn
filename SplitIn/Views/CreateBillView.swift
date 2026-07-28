@@ -57,7 +57,7 @@ struct CreateBillView: View {
                             Picker("", selection: $vm.selectedPayer) {
                                 // Text(" Select Member ")
                                 //     .tag(GroupMember?.none)
-                                ForEach(vm.currentGroup.members) { member in
+                                ForEach(vm.currentGroup.sortedMembers) { member in
                                     Text(member.person.name)
                                         .tag(GroupMember?.some(member))
                                 }
@@ -94,7 +94,7 @@ struct CreateBillView: View {
                     ForEach($vm.formItems) { $item in
                         BillItemRow(
                             item: $item,
-                            members: vm.currentGroup.members,
+                            members: vm.currentGroup.sortedMembers,
                             showDeleteButton: vm.formItems.count > 1
                         ) {
                             vm.removeItem(id: item.id)

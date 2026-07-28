@@ -134,7 +134,7 @@ struct GroupDetailView: View {
 
             // MARK: - Member Filter
             MemberFilterBar(
-                members: viewModel.group.members,
+                members: viewModel.group.sortedMembers,
                 selectedMemberID: viewModel.selectedMemberID,
                 onSelect: viewModel.selectMember
             )
