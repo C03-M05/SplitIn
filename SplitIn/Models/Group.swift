@@ -43,4 +43,9 @@ final class Group {
         self.name = name
         self.createdAt = createdAt
     }
+    var sortedMembers: [GroupMember] {
+        members.sorted {
+            $0.person.name.localizedCaseInsensitiveCompare($1.person.name) == .orderedAscending
+        }
+    }
 }
