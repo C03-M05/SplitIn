@@ -67,7 +67,7 @@ enum SplitInWidgetFormatter {
 }
 
 enum SplitInWidgetStore {
-    static let appGroupIdentifier = "group.com.ahmadfarhanqf.SplitIn"
+    static let appGroupIdentifier = "group.com.farhanqf.SplitIn"
     static let widgetKind = "SplitInWidget"
 
     private static let snapshotKey = "splitIn.widget.snapshot"
