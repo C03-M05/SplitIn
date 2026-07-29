@@ -21,7 +21,6 @@ struct ContentView: View {
         .onOpenURL { url in
             pendingCreateBillGroupID = Self.groupID(from: url)
         }
-        .preferredColorScheme(.dark)
     }
 
     private static func groupID(from url: URL) -> UUID? {
