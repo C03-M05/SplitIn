@@ -84,6 +84,7 @@ enum SplitInWidgetStore {
         }
     }
 
+    @MainActor
     static func save(groups: [Group]) {
         save(
             SplitInWidgetSnapshot(
