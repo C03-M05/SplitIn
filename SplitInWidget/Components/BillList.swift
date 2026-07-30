@@ -17,7 +17,7 @@ struct BillList: View {
             if bills.isEmpty {
                 Text("No bills yet")
                     .font(.system(size: 15 * scale, weight: .regular))
-                    .foregroundStyle(Color.white.opacity(0.7))
+                    .foregroundStyle(WidgetTheme.secondaryText)
                     .frame(maxWidth: .infinity, alignment: .leading)
             } else {
                 ForEach(Array(bills.prefix(4))) { bill in
@@ -31,7 +31,7 @@ struct BillList: View {
                             .lineLimit(1)
                     }
                     .font(.system(size: 15 * scale, weight: .regular))
-                    .foregroundStyle(Color.white.opacity(0.92))
+                    .foregroundStyle(WidgetTheme.primaryText.opacity(0.92))
                 }
             }
         }

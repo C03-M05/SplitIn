@@ -11,6 +11,7 @@ import WidgetKit
 // Root view yang memilih layout widget berdasarkan ukuran.
 struct SplitInWidgetEntryView: View {
     @Environment(\.widgetFamily) private var family
+    @Environment(\.colorScheme) private var colorScheme
 
     let entry: SplitInWidgetEntry
 
@@ -27,6 +28,7 @@ struct SplitInWidgetEntryView: View {
                 SmallSplitInWidgetView(entry: entry)
             }
         }
+        .id(colorScheme)
         .containerBackground(for: .widget) {
             WidgetBackground()
         }

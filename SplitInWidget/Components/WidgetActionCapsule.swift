@@ -61,7 +61,7 @@ struct WidgetActionCapsule: View {
                             .stroke(Color.white.opacity(0.20), lineWidth: 1)
                     }
                     .shadow(
-                        color: Color.black.opacity(0.30),
+                        color: WidgetTheme.shadow,
                         radius: 5,
                         x: 0,
                         y: 4

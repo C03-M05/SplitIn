@@ -27,6 +27,7 @@ struct SplitInWidget: Widget {
             .systemMedium
         ])
         .contentMarginsDisabled()
+        .containerBackgroundRemovable(false)
     }
 }
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
    LastUpgradeVersion = "2660"
-   version = "1.7">
+   version = "2.1">
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES"
@@ -46,6 +46,30 @@
                BlueprintIdentifier = "099F3A7C30047656000BD400"
                BuildableName = "SplitInUITests.xctest"
                BlueprintName = "SplitInUITests"
+               ReferencedContainer = "container:SplitIn.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <TestPlanReference
+               reference = "container:SplitIn/Components/SplitIn.xctestplan">
+            </TestPlanReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "09E779923018118B00C48DD3"
+               BuildableName = "SplitInWidgetExtension.appex"
+               BlueprintName = "SplitInWidgetExtension"
                ReferencedContainer = "container:SplitIn.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

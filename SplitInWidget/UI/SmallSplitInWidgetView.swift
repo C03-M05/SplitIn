@@ -20,7 +20,7 @@ struct SmallSplitInWidgetView: View {
             VStack(alignment: .leading, spacing: 9 * scale) {
                 Text(group?.name ?? "No Group")
                     .font(.system(size: 27 * scale, weight: .bold))
-                    .foregroundStyle(.white)
+                    .foregroundStyle(WidgetTheme.primaryText)
                     .lineLimit(2)
                     .minimumScaleFactor(0.65)
 

@@ -63,7 +63,7 @@ enum SplitInWidgetFormatter {
 
 // Reader snapshot widget dari shared UserDefaults milik App Group.
 enum SplitInWidgetStore {
-    static let appGroupIdentifier = "group.com.ahmadfarhanqf.SplitIn"
+    static let appGroupIdentifier = "group.com.farhan.SplitIn"
     static let widgetKind = "SplitInWidget"
 
     private static let snapshotKey = "splitIn.widget.snapshot"

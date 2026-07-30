@@ -552,10 +552,10 @@
 		099F3A8830047656000BD400 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "SplitIn Icon Final\nAn Application Group with Identifier 'group.com.farhanqf.SplitIn' is not available. Please enter a different string.";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "SplitIn Icon Final";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = SplitIn/SplitIn.entitlements;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = SplitIn/SplitIn.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = 8LC8H9PX8C;
@@ -572,7 +572,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ahmadfarhanqf.SplitIn;
+				PRODUCT_BUNDLE_IDENTIFIER = com.farhan.SplitIn;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -591,10 +591,10 @@
 		099F3A8930047656000BD400 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "SplitIn Icon Final\nAn Application Group with Identifier 'group.com.farhanqf.SplitIn' is not available. Please enter a different string.";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "SplitIn Icon Final";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = SplitIn/SplitIn.entitlements;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = SplitIn/SplitIn.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = 8LC8H9PX8C;
@@ -611,7 +611,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ahmadfarhanqf.SplitIn;
+				PRODUCT_BUNDLE_IDENTIFIER = com.farhan.SplitIn;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -730,7 +730,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ahmadfarhanqf.SplitIn.SplitInWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = com.farhan.SplitIn.SplitInWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -761,7 +761,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ahmadfarhanqf.SplitIn.SplitInWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = com.farhan.SplitIn.SplitInWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;

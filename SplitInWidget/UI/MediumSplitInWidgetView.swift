@@ -23,7 +23,7 @@ struct MediumSplitInWidgetView: View {
                 HStack(spacing: 12 * scale) {
                     Text(group?.name ?? "No Group")
                         .font(.system(size: 29 * scale, weight: .bold))
-                        .foregroundStyle(.white)
+                        .foregroundStyle(WidgetTheme.primaryText)
                         .lineLimit(1)
                         .minimumScaleFactor(0.72)
 
@@ -31,7 +31,7 @@ struct MediumSplitInWidgetView: View {
 
                     Text(group?.totalDisplayAmount ?? "Rp 0")
                         .font(.system(size: 23 * scale, weight: .bold))
-                        .foregroundStyle(.white.opacity(0.9))
+                        .foregroundStyle(WidgetTheme.primaryText.opacity(0.9))
                         .lineLimit(1)
                 }
                 .frame(height: 35 * scale)
@@ -68,10 +68,10 @@ struct MediumSplitInWidgetView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background {
                     RoundedRectangle(cornerRadius: 22 * scale)
-                        .fill(Color.black.opacity(0.10))
+                        .fill(WidgetTheme.contentBackground)
                         .overlay {
                             RoundedRectangle(cornerRadius: 22 * scale)
-                                .stroke(Color.white.opacity(0.15), lineWidth: 1)
+                                .stroke(WidgetTheme.contentStroke, lineWidth: 1)
                         }
                 }
             }

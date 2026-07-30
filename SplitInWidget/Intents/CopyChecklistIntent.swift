@@ -34,7 +34,11 @@ struct CopyChecklistIntent: AppIntent {
             return .result(dialog: "Open SplitIn to sync this widget first.")
         }
 
+        let feedbackGenerator = UINotificationFeedbackGenerator()
+        feedbackGenerator.prepare()
+
         UIPasteboard.general.string = group.checklistText
+        feedbackGenerator.notificationOccurred(.success)
         WidgetCenter.shared.reloadTimelines(ofKind: SplitInWidgetStore.widgetKind)
         return .result(dialog: "Copied to clipboard")
     }

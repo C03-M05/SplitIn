@@ -18,16 +18,23 @@ struct ContentView: View {
                 onAddGroup: {}
             )
         }
-        .onOpenURL { url in
-            pendingCreateBillGroupID = Self.groupID(from: url)
+        .onOpenURL(perform: handleWidgetURL)
+    }
+
+    @MainActor
+    private func handleWidgetURL(_ url: URL) {
+        guard url.scheme == "splitin" else {
+            return
         }
+
+        guard url.host == "add-bill" else {
+            return
+        }
+
+        pendingCreateBillGroupID = Self.groupID(from: url)
     }
 
     private static func groupID(from url: URL) -> UUID? {
-        guard url.scheme == "splitin", url.host == "add-bill" else {
-            return nil
-        }
-
         let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
         let rawGroupID = components?.queryItems?.first { item in
             item.name == "groupID"
