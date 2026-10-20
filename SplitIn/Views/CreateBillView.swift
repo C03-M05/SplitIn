@@ -15,6 +15,7 @@ struct CreateBillView: View {
     
     @State private var viewModel: CreateBillViewModel
     @State private var showCancelConfirmation = false
+    @State private var isScanningReceipt = false
     
     init(group: Group) {
         _viewModel = State(initialValue: CreateBillViewModel(group: group))
@@ -32,10 +33,14 @@ struct CreateBillView: View {
                 VStack(alignment: .leading, spacing: 20) {
                     
                     // Judul Bill
-                    Text("Bill")
-                        .font(.title2)
-                        .fontWeight(.bold)
-                        .foregroundColor(.primary)
+                    HStack {
+                        Text("Bill")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .foregroundColor(.primary)
+                        Spacer()
+                        ReceiptScanControls(viewModel: vm, isScanning: $isScanningReceipt)
+                    }
                     
                     // Input Nama Bill
                     TextField("Bill name", text: $vm.billName)
@@ -173,7 +178,7 @@ struct CreateBillView: View {
             .toolbar {
                 CreateBillToolbar(
                     title: vm.isEditMode ? "Edit Bill" : "Create Bill",
-                    canSave: vm.isFormValid,
+                    canSave: vm.isFormValid && !isScanningReceipt,
                     isShowingDiscardConfirmation: $showCancelConfirmation,
                     onCancel: {
                         let hasStartedTyping = !vm.billName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty

@@ -51,6 +51,30 @@ class CreateBillViewModel {
             : items.enumerated().map { FormItemInput(from: $0.element, displayIndex: $0.offset + 1) }
     }
     
+    /// Scans only populate receipt facts; payer and split participants are user decisions.
+    func applyScannedReceipt(_ receipt: ScannedReceipt) {
+        billName = receipt.merchant?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        if let dateText = receipt.date {
+            let formatter = DateFormatter()
+            formatter.locale = Locale(identifier: "en_US_POSIX")
+            formatter.dateFormat = "yyyy-MM-dd"
+            formatter.isLenient = false
+            if let date = formatter.date(from: dateText), formatter.string(from: date) == dateText {
+                billDate = date
+            }
+        }
+        // Bound generated numbers before they reach integer arithmetic in the form.
+        rawGrandTotal = receipt.total.flatMap { (1...1_000_000_000).contains($0) ? $0 : nil } ?? 0
+        formItems = receipt.items.prefix(60).enumerated().map { index, scanned in
+            let item = FormItemInput(displayIndex: index + 1)
+            item.name = scanned.name.trimmingCharacters(in: .whitespacesAndNewlines)
+            item.price = scanned.unitPrice.flatMap { (1...1_000_000_000).contains($0) ? $0 : nil } ?? 0
+            item.quantity = scanned.quantity.flatMap { (1...999).contains($0) ? $0 : nil } ?? 0
+            return item
+        }
+        if formItems.isEmpty { formItems = [FormItemInput()] }
+    }
+
     func addItem() {
         let nextIndex = formItems.count + 1
         formItems.append(FormItemInput(displayIndex: nextIndex))
